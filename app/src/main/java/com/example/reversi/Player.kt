@@ -1,6 +1,6 @@
 package com.example.reversi
 
-class Player(color: Char)
+class Player(color: Char, val name:String)
 {
     val colorOfPawn = color
     var amountOfPawns: Int = 2
@@ -8,5 +8,9 @@ class Player(color: Char)
     public fun putPawn()
     {
         amountOfPawns++
+    }
+    public fun wastePawn()
+    {
+        amountOfPawns--
     }
 }

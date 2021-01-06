@@ -1,31 +1,16 @@
 package com.example.reversi
 
-import android.widget.TextView
+import android.util.Log
 
-class Game(var amountOfPlayer: Int) {
+class Game(playerA: Player, playerB: Player, board: Board, buttonSize: Int ) {
 
-    private var winner: String = ""
-        get() {
-            return field
-        }
-        set(value) {
-            field = value
-        }
-    val score = IntArray(2)
-    val scoreTextView = mutableListOf<TextView>()
+    val playerA = playerA
+    val playerB = playerB
+    val board = board
+    val buttonSize = buttonSize
+    var currentPlayer = 'B'
 
-    fun addScore(textView: TextView)
-    {
-        scoreTextView.add(textView)
+    init {
+        Log.d("Game","Utworzono klase Game")
     }
-
-    fun isOver(boardSize: Int): Boolean
-    {
-        if(boardSize*boardSize == score[0]+score[1])
-        {
-            return true
-        }
-        return false
-    }
-
 }

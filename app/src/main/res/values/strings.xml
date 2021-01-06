@@ -3,4 +3,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="reset">RESET</string>
+    <string name="ustawienia">USTAWIENIA</string>
+    <string name="nowa_gra">NOWA GRA</string>
+    <string name="WYJŚCIE">exit</string>
 </resources>

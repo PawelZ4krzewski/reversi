@@ -19,7 +19,6 @@ import kotlin.math.roundToInt
 class gameFragment : Fragment() {
 
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -29,12 +28,12 @@ class gameFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-         val boardSize = 8
-         val buttonSize = (45f).dpToPixels().roundToInt()
-         val board = Board(boardSize)
-         val playerA = Player('B', "PlayerA")
-         val playerB = Player('W', "PlayerB")
-         val game = Game(playerA, playerB, board, buttonSize)
+        val boardSize = 6
+        val buttonSize = (45f).dpToPixels().roundToInt()
+        val board = Board(boardSize)
+        val playerA = Player('B', "PlayerA")
+        val playerB = Player('W', "PlayerB")
+        val game = Game(playerA, playerB, board, buttonSize)
 
         createBoard(view, game)
 
@@ -50,8 +49,7 @@ class gameFragment : Fragment() {
         )
     }
 
-    private fun createBoard(view:View, game:Game)
-    {
+    private fun createBoard(view: View, game: Game) {
 
         val myLayout = view.findViewById<LinearLayout>(R.id.LinearLayout)
 
@@ -70,7 +68,7 @@ class gameFragment : Fragment() {
 
                 game.board.pawnOnBoard[i][j] = 'X'
 
-                val pawnButton = PawnButton(createDefaultButton(game),'X' ,i ,j)
+                val pawnButton = PawnButton(createDefaultButton(game), 'X', i, j)
 
                 if ((i == 3 && j == 3) || (i == 4 && j == 4)) {
                     pawnButton.button.setBackgroundColor(Color.parseColor(pawnButton.setColor(game.playerB.color)))
@@ -84,15 +82,23 @@ class gameFragment : Fragment() {
                 game.board.board[i].add(pawnButton)
                 game.board.board[i][j].button.setOnClickListener()
                 {
-                    if(!game.board.move(game.currentPlayer, i , j, if(game.currentPlayer==game.playerA.color) game.playerA else game.playerB,  if(game.currentPlayer==game.playerA.color) game.playerB else game.playerA))
-                    {
-                        Toast.makeText(requireContext(),"Bledny ruch",Toast.LENGTH_SHORT).show()
+                    if (!game.board.move(
+                            game.currentPlayer,
+                            i,
+                            j,
+                            if (game.currentPlayer == game.playerA.color) game.playerA else game.playerB,
+                            if (game.currentPlayer == game.playerA.color) game.playerB else game.playerA
+                        )
+                    ) {
+                        Toast.makeText(requireContext(), "Bledny ruch", Toast.LENGTH_SHORT).show()
                         Log.d("Board", "Bledny RUCH")
-                    }
-                    else
-                    {
-                        game.currentPlayer = if(game.currentPlayer==game.playerA.color) game.playerB.color else game.playerA.color
+                    } else {
+                        game.emptyFields--
+                        game.currentPlayer =
+                            if (game.currentPlayer == game.playerA.color) game.playerB.color else game.playerA.color
+                        game.accessibleMove()
                         updateScore(view, game)
+                        game.isOver()
                     }
 
                 }
@@ -103,19 +109,20 @@ class gameFragment : Fragment() {
     }
 
 
-    private fun createDefaultButton(game: Game) : Button
-    {
-         return Button(requireContext()).apply {
+    private fun createDefaultButton(game: Game): Button {
+        return Button(requireContext()).apply {
             setBackgroundColor(Color.parseColor("#006200"))
-            layoutParams = LinearLayout.LayoutParams(game.buttonSize, game.buttonSize).apply { setMargins(5,5,5,5) }
+            layoutParams = LinearLayout.LayoutParams(game.buttonSize, game.buttonSize)
+                .apply { setMargins(5, 5, 5, 5) }
             id = View.generateViewId()
         }
     }
 
-    private fun updateScore(view: View, game : Game)
-    {
-        view.findViewById<TextView>(R.id.textViewA).text = "${game.playerA.color}  \n ${game.playerA.amountOfPawns}"
-        view.findViewById<TextView>(R.id.textViewB).text = "${game.playerB.color}  \n ${game.playerB.amountOfPawns}"
+    private fun updateScore(view: View, game: Game) {
+        view.findViewById<TextView>(R.id.textViewA).text =
+            "${game.playerA.color}  \n ${game.playerA.amountOfPawns}"
+        view.findViewById<TextView>(R.id.textViewB).text =
+            "${game.playerB.color}  \n ${game.playerB.amountOfPawns}"
         view.findViewById<TextView>(R.id.currentPlayer).text = "${game.currentPlayer}"
     }
 }

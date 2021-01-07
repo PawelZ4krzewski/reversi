@@ -9,15 +9,13 @@ import androidx.core.content.ContentProviderCompat.requireContext
 class PawnButton(val button: Button, var color: Char, val x: Int, val y: Int) {
 
 
-    fun setColor(color: Char): String?
-    {
-        when(color)
-        {
+    fun setColor(color: Char): String? {
+        when (color) {
             'W' -> {
                 this.color = color
                 return "#ffffff"
             }
-            'B' ->{
+            'B' -> {
                 this.color = color
                 return "#000000"
             }

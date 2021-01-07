@@ -12,6 +12,7 @@ class Board(val boardSize: Int) {
 
     val board = mutableListOf<MutableList<PawnButton>>()
     var currentColor: Char = 'B'
+
     init {
         repeat(boardSize)
         {
@@ -20,16 +21,15 @@ class Board(val boardSize: Int) {
     }
 
 
-    fun move(currentP : Char ,i: Int, j: Int, currentPlayer: Player, enemy: Player): Boolean {
+    fun move(currentP: Char, i: Int, j: Int, currentPlayer: Player, enemy: Player): Boolean {
         this.currentColor = currentP
         var correctMove = false
         if (board[i][j].color == 'X') {
             outfor1@ for (x in max(i - 1, 0) until min(i + 2, boardSize)) {
                 for (y in max(j - 1, 0) until min(j + 2, boardSize)) {
-                    if (board[x][y].color  != 'X') {
-                        if(findEnemy(i, j, currentPlayer, enemy))
-                        {
-                            changePawnColor(i,j,true, currentPlayer, enemy)
+                    if (board[x][y].color != 'X') {
+                        if (findEnemy(i, j, currentPlayer, enemy)) {
+                            changePawnColor(i, j, true, currentPlayer, enemy)
                             correctMove = true
                             break@outfor1
                         }
@@ -39,8 +39,24 @@ class Board(val boardSize: Int) {
         }
         return correctMove
     }
-
-    private fun findEnemy(i: Int, j: Int, currentPlayer: Player, enemy: Player) : Boolean {
+    fun justFindEnemy(currentPlayer: Player, enemy: Player): Boolean
+    {
+        for(i in 0 until boardSize)
+        {
+            for(j in 0 until boardSize)
+            {
+                if(board[i][j].color == 'X')
+                {
+                    if(findEnemy(i,j,currentPlayer,enemy,true))
+                    {
+                        return true
+                    }
+                }
+            }
+        }
+        return false
+    }
+    private fun findEnemy(i: Int, j: Int, currentPlayer: Player, enemy: Player, justFind: Boolean = false): Boolean {
         var correctMove = false
         Log.d(
             "board",
@@ -54,20 +70,13 @@ class Board(val boardSize: Int) {
             for (y in max(j - 1, 0) until min(j + 2, boardSize)) {
                 Log.d(
                     "board",
-                    "petla dla $x $y pwnOnBoard = ${board[x][y].color }"
+                    "petla dla $x $y pwnOnBoard = ${board[x][y].color}"
                 )
                 if (board[x][y].color == enemy.color && (x != i || y != j)) {
-                    Log.d(
-                        "board",
-                        "Obecny pionek $currentPlayer przeciwnik $enemy Znaleziono przeciwnika na $x $y"
-                    )
-                    if(reverseColor(i,j,x-i,y-j, currentPlayer, enemy))
-                    {
+                    if (reverseColor(i, j, x - i, y - j, currentPlayer, enemy, justFind)) {
                         correctMove = true
                         Log.d("ReversiveBoard", "Mozna revesi zrobic")
-                    }
-                    else
-                    {
+                    } else {
                         Log.d("ReversiveBoard", "NIC NIE MOZNA")
                     }
 
@@ -77,8 +86,15 @@ class Board(val boardSize: Int) {
         return correctMove
     }
 
-    private fun reverseColor(i: Int, j: Int, opi: Int, opj: Int, currentPlayer: Player, enemy: Player) :Boolean
-    {
+    private fun reverseColor(
+        i: Int,
+        j: Int,
+        opi: Int,
+        opj: Int,
+        currentPlayer: Player,
+        enemy: Player,
+        justFind: Boolean
+    ): Boolean {
         Log.d(
             "board",
             "reverseColor"
@@ -91,10 +107,10 @@ class Board(val boardSize: Int) {
 
         Log.d("board", "i = $i j = $j opi =$opi opj = $opj ni = $ni nj = $nj")
 
-        if(opi == 0) {
-            while ((nj >= 0) && (nj != boardSize) && (board[ni][nj].color  == enemy.color || board[ni][nj].color  == currentPlayer.color)) {
+        if (opi == 0) {
+            while ((nj >= 0) && (nj != boardSize) && (board[ni][nj].color == enemy.color || board[ni][nj].color == currentPlayer.color)) {
                 Log.d("board", "ni = $ni nj = $nj")
-                if (board[ni][nj].color  == currentPlayer.color) {
+                if (board[ni][nj].color == currentPlayer.color) {
                     Log.d("board", "i = $i j = $j ni = $ni nj = $nj")
                     flag = true
                     break
@@ -102,22 +118,20 @@ class Board(val boardSize: Int) {
                 nj += opj
             }
         }
-        if(opj == 0) {
-            while ((ni >= 0) && (ni != boardSize) && (board[ni][nj].color  == enemy.color || board[ni][nj].color  == currentPlayer.color)) {
+        if (opj == 0) {
+            while ((ni >= 0) && (ni != boardSize) && (board[ni][nj].color == enemy.color || board[ni][nj].color == currentPlayer.color)) {
                 Log.d("board", "ni = $ni nj = $nj")
-                if (board[ni][nj].color  == currentPlayer.color) {
+                if (board[ni][nj].color == currentPlayer.color) {
                     Log.d("board", "i = $i j = $j ni = $ni nj = $nj")
                     flag = true
                     break
                 }
                 ni += opi
             }
-        }
-        else
-        {
-            outWhile@ while ((ni >= 0) && (ni != boardSize) && (nj >= 0) && (nj != boardSize) && (board[ni][nj].color  == enemy.color || board[ni][nj].color  == currentPlayer.color)) {
+        } else {
+            outWhile@ while ((ni >= 0) && (ni != boardSize) && (nj >= 0) && (nj != boardSize) && (board[ni][nj].color == enemy.color || board[ni][nj].color == currentPlayer.color)) {
                 Log.d("board", "ni = $ni nj = $nj")
-                if (board[ni][nj].color  == currentPlayer.color) {
+                if (board[ni][nj].color == currentPlayer.color) {
                     Log.d("board", "i = $i j = $j ni = $ni nj = $nj")
                     flag = true
                     break@outWhile
@@ -127,37 +141,29 @@ class Board(val boardSize: Int) {
             }
         }
 
+        if(justFind) {
+            return flag
+        }
         if (flag) {
-            if(opi == 0)
-            {
-                for (y in min(nj, j) + 1 until max(nj, j)) {
-                    Log.d("board","x = $i, y = $y")
-                    changePawnColor(i, y, false, currentPlayer, enemy)
-                }
-            }
-            else if(opj == 0)
-            {
-                for (x in min(ni, i) + 1 until max(ni, i)) {
-                    Log.d("board","x = $x, y = $j")
-                    changePawnColor(x, j, false, currentPlayer, enemy)
-                }
-            }
-            else
-            {
-                var x = i+opi
-                var y = j+opj
-                while( x != ni || y != nj) {
-                    Log.d("board", "x = $x, y = $y")
-                    changePawnColor(x, y, false, currentPlayer, enemy)
-                    y += opj
-                    x += opi
-                }
+            var x = i + opi
+            var y = j + opj
+            while (x != ni || y != nj) {
+                Log.d("board", "x = $x, y = $y")
+                changePawnColor(x, y, false, currentPlayer, enemy)
+                y += opj
+                x += opi
             }
         }
         return flag
     }
 
-    private fun changePawnColor(i: Int, j: Int, new: Boolean = true, currentPlayer: Player, enemy: Player) {
+    private fun changePawnColor(
+        i: Int,
+        j: Int,
+        new: Boolean = true,
+        currentPlayer: Player,
+        enemy: Player
+    ) {
         Log.d(
             "board",
             "changePawnColor"
@@ -167,10 +173,15 @@ class Board(val boardSize: Int) {
             "currentPlayerColor ${currentPlayer.color} currentColor $currentColor"
         )
         if (currentColor == currentPlayer.color) {
-            board[i][j].button.setBackgroundColor(Color.parseColor(board[i][j].setColor(currentPlayer.color)))
+            board[i][j].button.setBackgroundColor(
+                Color.parseColor(
+                    board[i][j].setColor(
+                        currentPlayer.color
+                    )
+                )
+            )
             currentPlayer.amountOfPawns++
-            if(!new)
-            {
+            if (!new) {
                 enemy.amountOfPawns--
             }
         }

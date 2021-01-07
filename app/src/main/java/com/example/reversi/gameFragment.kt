@@ -1,6 +1,8 @@
 package com.example.reversi
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
+import android.app.Dialog
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
@@ -13,6 +15,9 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
+import androidx.navigation.findNavController
+import kotlinx.android.synthetic.main.game_over.*
 import kotlin.math.roundToInt
 
 
@@ -28,7 +33,7 @@ class gameFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val boardSize = 6
+        val boardSize = 4
         val buttonSize = (45f).dpToPixels().roundToInt()
         val board = Board(boardSize)
         val playerA = Player('B', "PlayerA")
@@ -36,9 +41,13 @@ class gameFragment : Fragment() {
         val game = Game(playerA, playerB, board, buttonSize)
 
         createBoard(view, game)
-
+        updateScore(view, game)
 
         val resetButton = view.findViewById<Button>(R.id.resetButton)
+        resetButton.setOnClickListener()
+        {
+            view.findNavController().navigate(R.id.action_gameFragment_to_menu)
+        }
     }
 
     private fun Float.dpToPixels(): Float {
@@ -70,11 +79,11 @@ class gameFragment : Fragment() {
 
                 val pawnButton = PawnButton(createDefaultButton(game), 'X', i, j)
 
-                if ((i == 3 && j == 3) || (i == 4 && j == 4)) {
+                if (i == (game.board.boardSize/2 * 1.0).roundToInt() && j == (game.board.boardSize/2 * 1.0).roundToInt() || (i == (game.board.boardSize/2 * 1.0).roundToInt() - 1  && j == (game.board.boardSize/2 * 1.0).roundToInt() - 1)) {
                     pawnButton.button.setBackgroundColor(Color.parseColor(pawnButton.setColor(game.playerB.color)))
                 }
 
-                if ((i == 4 && j == 3) || (i == 3 && j == 4)) {
+                if ((i == (game.board.boardSize/2 * 1.0).roundToInt() - 1 && j == (game.board.boardSize/2 * 1.0).roundToInt()) || (i == (game.board.boardSize/2 * 1.0).roundToInt() && j == (game.board.boardSize/2 * 1.0).roundToInt() - 1)) {
                     pawnButton.button.setBackgroundColor(Color.parseColor(pawnButton.setColor(game.playerA.color)))
                 }
 
@@ -98,7 +107,10 @@ class gameFragment : Fragment() {
                             if (game.currentPlayer == game.playerA.color) game.playerB.color else game.playerA.color
                         game.accessibleMove()
                         updateScore(view, game)
-                        game.isOver()
+                        if(game.isOver())
+                        {
+                            openGameOverDialog(view, game)
+                        }
                     }
 
                 }
@@ -106,6 +118,47 @@ class gameFragment : Fragment() {
             //Log.d("MainActivity", "i = $i j = $j ${pawnOnBoard[i][j].toString()}")
             myLayout.addView(column)
         }
+    }
+
+    private fun openGameOverDialog(view: View, game: Game) {
+
+        var dialog: AlertDialog? = null
+        val builder = AlertDialog.Builder(requireContext())
+        val v = layoutInflater.inflate(R.layout.game_over, null)
+
+        val winnerText = v.findViewById<TextView>(R.id.textViewWinner)
+        Log.d("gameFragment","${winnerText}")
+            when {
+                game.playerA.amountOfPawns > game.playerB.amountOfPawns -> {
+                    winnerText.text = "${game.playerA.name} \n WINS!"
+                }
+                game.playerA.amountOfPawns < game.playerB.amountOfPawns -> {
+                    winnerText.text = "${game.playerB.name} \n WINS!"
+                }
+                else -> {
+                    winnerText.text = "REMIS"
+                }
+            }
+            val resetButton = v.findViewById<Button>(R.id.buttonRetryDialog)
+//            Log.d("gameFragment","${resetButton}")
+            resetButton.setOnClickListener() {
+                Log.d("gameFragment","EXIT BUTTON")
+                TODO()
+                dialog?.dismiss()
+
+            }
+
+            val buttonExit = v.findViewById<Button>(R.id.buttonExitDialog)
+            buttonExit.setOnClickListener()
+            {
+                Log.d("gameFragment","EXIT BUTTON")
+                view.findNavController().navigate(R.id.action_gameFragment_to_menu)
+                dialog?.dismiss()
+            }
+
+        builder.setView(v)
+        dialog = builder.create()
+        dialog.show()
     }
 
 

@@ -2,7 +2,6 @@ package com.example.reversi
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
-import android.app.Dialog
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
@@ -10,38 +9,31 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.LinearLayout
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
 import androidx.navigation.findNavController
-import kotlinx.android.synthetic.main.game_over.*
 import kotlin.math.roundToInt
 
 
-class gameFragment : Fragment() {
-
-
+class Game2PlayerFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_game, container, false)
+        val view = inflater.inflate(R.layout.fragment_game2_player, container, false)
+        return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val boardSize = 4
+        val boardSize = 8
         val buttonSize = (45f).dpToPixels().roundToInt()
         val board = Board(boardSize)
-        val playerA = Player('B', "PlayerA")
-        val playerB = Player('W', "PlayerB")
-        val game = Game(playerA, playerB, board, buttonSize)
-
+        val playerA = userPlayer('B', "PlayerA")
+        val playerB = userPlayer('W', "PlayerB")
+        val game = GameTwoPlayers(playerA, playerB, board, buttonSize)
+        askAboutPlayer(view, game)
         createBoard(view, game)
-        updateScore(view, game)
 
         val resetButton = view.findViewById<Button>(R.id.resetButton)
         resetButton.setOnClickListener()
@@ -58,7 +50,7 @@ class gameFragment : Fragment() {
         )
     }
 
-    private fun createBoard(view: View, game: Game) {
+    private fun createBoard(view: View, game: GameTwoPlayers) {
 
         val myLayout = view.findViewById<LinearLayout>(R.id.LinearLayout)
 
@@ -115,12 +107,13 @@ class gameFragment : Fragment() {
 
                 }
             }
-            //Log.d("MainActivity", "i = $i j = $j ${pawnOnBoard[i][j].toString()}")
             myLayout.addView(column)
         }
+        updateScore(view, game)
     }
 
-    private fun openGameOverDialog(view: View, game: Game) {
+    @SuppressLint("SetTextI18n")
+    private fun openGameOverDialog(view: View, game: GameTwoPlayers) {
 
         var dialog: AlertDialog? = null
         val builder = AlertDialog.Builder(requireContext())
@@ -130,22 +123,18 @@ class gameFragment : Fragment() {
         Log.d("gameFragment","${winnerText}")
             when {
                 game.playerA.amountOfPawns > game.playerB.amountOfPawns -> {
-                    winnerText.text = "${game.playerA.name} \n WINS!"
+                    winnerText.text = "${game.playerA.getName()} \n WINS!"
                 }
                 game.playerA.amountOfPawns < game.playerB.amountOfPawns -> {
-                    winnerText.text = "${game.playerB.name} \n WINS!"
+                    winnerText.text = "${game.playerB.getName()} \n WINS!"
                 }
                 else -> {
                     winnerText.text = "REMIS"
                 }
             }
             val resetButton = v.findViewById<Button>(R.id.buttonRetryDialog)
-//            Log.d("gameFragment","${resetButton}")
             resetButton.setOnClickListener() {
-                Log.d("gameFragment","EXIT BUTTON")
-                TODO()
-                dialog?.dismiss()
-
+                Log.d("gameFragment","NIE DZIALA")
             }
 
             val buttonExit = v.findViewById<Button>(R.id.buttonExitDialog)
@@ -161,8 +150,23 @@ class gameFragment : Fragment() {
         dialog.show()
     }
 
+    private fun askAboutPlayer(view: View, game: GameTwoPlayers){
+        var dialog: AlertDialog? = null
+        val builder = AlertDialog.Builder(requireContext())
+        val v = layoutInflater.inflate(R.layout.ask_name_of_player, null)
 
-    private fun createDefaultButton(game: Game): Button {
+        v.findViewById<Button>(R.id.buttonSendPlayer2Name).setOnClickListener(){
+            game.playerB.setName(v.findViewById<EditText>(R.id.editTextPlayer2Name).text.toString())
+            updateScore(view,game)
+            dialog?.dismiss()
+        }
+
+        builder.setView(v)
+        dialog = builder.create()
+        dialog.show()
+    }
+
+    private fun createDefaultButton(game: GameTwoPlayers): Button {
         return Button(requireContext()).apply {
             setBackgroundColor(Color.parseColor("#006200"))
             layoutParams = LinearLayout.LayoutParams(game.buttonSize, game.buttonSize)
@@ -171,11 +175,12 @@ class gameFragment : Fragment() {
         }
     }
 
-    private fun updateScore(view: View, game: Game) {
+    @SuppressLint("SetTextI18n")
+    private fun updateScore(view: View, game: GameTwoPlayers) {
         view.findViewById<TextView>(R.id.textViewA).text =
-            "${game.playerA.color}  \n ${game.playerA.amountOfPawns}"
+            "${game.playerA.getName()}  \n ${game.playerA.amountOfPawns}"
         view.findViewById<TextView>(R.id.textViewB).text =
-            "${game.playerB.color}  \n ${game.playerB.amountOfPawns}"
+            "${game.playerB.getName()}  \n ${game.playerB.amountOfPawns}"
         view.findViewById<TextView>(R.id.currentPlayer).text = "${game.currentPlayer}"
     }
 }

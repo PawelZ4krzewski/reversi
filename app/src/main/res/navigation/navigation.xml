@@ -13,14 +13,25 @@
         <action
             android:id="@+id/action_menu_to_gameFragment"
             app:destination="@id/gameFragment" />
+        <action
+            android:id="@+id/action_menu_to_game1PlayerFragment"
+            app:destination="@id/game1PlayerFragment" />
     </fragment>
     <fragment
         android:id="@+id/gameFragment"
-        android:name="com.example.reversi.gameFragment"
+        android:name="com.example.reversi.Game2PlayerFragment"
         android:label="fragment_game"
-        tools:layout="@layout/fragment_game" >
+        tools:layout="@layout/fragment_game2_player" >
         <action
             android:id="@+id/action_gameFragment_to_menu"
+            app:destination="@id/menu" />
+    </fragment>
+    <fragment
+        android:id="@+id/game1PlayerFragment"
+        android:name="com.example.reversi.Game1PlayerFragment"
+        android:label="game1PlayerFragment" >
+        <action
+            android:id="@+id/action_game1PlayerFragment_to_menu"
             app:destination="@id/menu" />
     </fragment>
 </navigation>

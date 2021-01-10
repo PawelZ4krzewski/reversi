@@ -1,15 +1,19 @@
 package com.example.reversi
 
-class Player(color: Char, name: String) {
+open class Player(color: Char, name: String) {
     val color = color
-    val name = name
+    private var name = name
     var amountOfPawns: Int = 2
 
-    public fun putPawn() {
-        amountOfPawns++
+    fun setName(playerName: String)
+    {
+        this.name = playerName
     }
 
-    public fun wastePawn() {
-        amountOfPawns--
+    fun getName() :String
+    {
+        return this.name
     }
+
+
 }

@@ -4,11 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".gameFragment"
+    tools:context=".Game2PlayerFragment"
     android:id="@+id/constraintLayout">
 
     <TextView
-        android:id="@+id/currentPlayer"
+        android:id="@+id/currentPlayerBot"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=""
@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textViewA"
+        android:id="@+id/textViewPlayerA"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAlignment="center"
@@ -28,7 +28,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textViewB"
+        android:id="@+id/textViewBot"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAlignment="center"
@@ -38,7 +38,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
-        android:id="@+id/LinearLayout"
+        android:id="@+id/LinearLayoutBot"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -50,7 +50,7 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/resetButton"
+        android:id="@+id/resetButtonBot"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="56dp"

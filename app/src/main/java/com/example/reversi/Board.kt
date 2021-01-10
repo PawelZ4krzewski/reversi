@@ -11,7 +11,7 @@ class Board(val boardSize: Int) {
     val pawnOnBoard = Array(8) { CharArray(boardSize) }
 
     val board = mutableListOf<MutableList<PawnButton>>()
-    var currentColor: Char = 'B'
+    var currentColor: String = "B"
 
     init {
         repeat(boardSize)
@@ -21,13 +21,13 @@ class Board(val boardSize: Int) {
     }
 
 
-    fun move(currentP: Char, i: Int, j: Int, currentPlayer: Player, enemy: Player): Boolean {
+    fun move(currentP: String, i: Int, j: Int, currentPlayer: Player, enemy: Player): Boolean {
         this.currentColor = currentP
         var correctMove = false
-        if (board[i][j].color == 'X') {
+        if (board[i][j].color == "X") {
             outfor1@ for (x in max(i - 1, 0) until min(i + 2, boardSize)) {
                 for (y in max(j - 1, 0) until min(j + 2, boardSize)) {
-                    if (board[x][y].color != 'X') {
+                    if (board[x][y].color != "X") {
                         if (findEnemy(i, j, currentPlayer, enemy)) {
                             changePawnColor(i, j, true, currentPlayer, enemy)
                             correctMove = true
@@ -45,7 +45,7 @@ class Board(val boardSize: Int) {
         {
             for(j in 0 until boardSize)
             {
-                if(board[i][j].color == 'X')
+                if(board[i][j].color == "X")
                 {
                     if(findEnemy(i,j,currentPlayer,enemy,true))
                     {

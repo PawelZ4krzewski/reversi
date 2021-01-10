@@ -5,7 +5,7 @@ import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
 
-class Bot(color: Char, name: String): Player(color, name) {
+class Bot(color: String, name: String): Player(color, name) {
 
 
 
@@ -19,7 +19,7 @@ class Bot(color: Char, name: String): Player(color, name) {
         {
             for(j in 0 until board.boardSize)
             {
-                if(board.board[i][j].color == 'X')
+                if(board.board[i][j].color == "X")
                 {
 
                     pomArray = findAvailableMove(i,j,enemy,board)

@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import java.io.File
 import kotlin.math.roundToInt
 
 
@@ -26,11 +27,43 @@ class Game2PlayerFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val boardSize = 8
+        var boardSize = 6
         val buttonSize = (45f).dpToPixels().roundToInt()
+        var playerAColor = "B"
+        var playerBColor = "W"
+
+        val myFile = File(requireContext().filesDir,"gameSettings.txt")
+        val isFile = myFile.createNewFile()
+        if(isFile)
+        {
+            Log.d("SettingsFragment", "Utworzono nowy plik")
+        }
+        else
+        {
+            Log.d("SettingsFragment", "Plik juz istnieje")
+        }
+
+        val tekst = myFile.bufferedReader().readLines()
+        for(x in tekst)
+        {
+            val settingLine = x.split(" ")
+
+            when(settingLine[0])
+            {
+                "boardSize" -> {
+                    boardSize = settingLine[1].toInt()
+                }
+                "playerAColor" -> {
+                    playerAColor = settingLine[1]
+                }
+                "playerBColor" -> {
+                    playerBColor = settingLine[1]
+                }
+            }
+        }
         val board = Board(boardSize)
-        val playerA = userPlayer('B', "PlayerA")
-        val playerB = userPlayer('W', "PlayerB")
+        val playerA = userPlayer(playerAColor, "PlayerA")
+        val playerB = userPlayer(playerBColor, "PlayerB")
         val game = GameTwoPlayers(playerA, playerB, board, buttonSize)
         askAboutPlayer(view, game)
         createBoard(view, game)
@@ -69,7 +102,7 @@ class Game2PlayerFragment : Fragment() {
 
                 game.board.pawnOnBoard[i][j] = 'X'
 
-                val pawnButton = PawnButton(createDefaultButton(game), 'X', i, j)
+                val pawnButton = PawnButton(createDefaultButton(game), "X", i, j)
 
                 if (i == (game.board.boardSize/2 * 1.0).roundToInt() && j == (game.board.boardSize/2 * 1.0).roundToInt() || (i == (game.board.boardSize/2 * 1.0).roundToInt() - 1  && j == (game.board.boardSize/2 * 1.0).roundToInt() - 1)) {
                     pawnButton.button.setBackgroundColor(Color.parseColor(pawnButton.setColor(game.playerB.color)))

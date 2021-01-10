@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <RadioGroup
+        android:id="@+id/radioGroupBoardSize"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:orientation="horizontal">
+
+
+        <RadioButton
+            android:id="@+id/radioButtonBoardSize4"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:text="4x4" />
+
+        <RadioButton
+            android:id="@+id/radioButtonBoardSize6"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:checked="true"
+            android:text="6x6" />
+
+        <RadioButton
+            android:id="@+id/radioButtonBoardSize8"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:text="8x8" />
+    </RadioGroup>
+
+    <RadioGroup
+        android:id="@+id/radioGroupColorPlayerA"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/buttonCheck"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/radioGroupBoardSize">
+
+
+        <RadioButton
+            android:id="@+id/radioButtonBlack"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:text="Black" />
+
+        <RadioButton
+            android:id="@+id/radioButtonRed"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:checked="true"
+            android:text="Red" />
+
+        <RadioButton
+            android:id="@+id/radioButtonDarKWood"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:text="Dark Wood"
+            android:textAlignment="center"/>
+    </RadioGroup>
+
+    <RadioGroup
+        android:id="@+id/radioGroupColorPlayerB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/buttonCheck"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/radioGroupColorPlayerA">
+
+
+        <RadioButton
+            android:id="@+id/radioButtonWhite"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:text="White" />
+
+        <RadioButton
+            android:id="@+id/radioButtonYellow"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:checked="true"
+            android:text="Yellow" />
+
+        <RadioButton
+            android:id="@+id/radioButtonLightWood"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:text="Light Wood"
+            android:textAlignment="center" />
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/buttonCheck"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Check"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/radioGroupBoardSize" />
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

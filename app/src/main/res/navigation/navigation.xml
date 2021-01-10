@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_menu_to_game1PlayerFragment"
             app:destination="@id/game1PlayerFragment" />
+        <action
+            android:id="@+id/action_menu_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
     </fragment>
     <fragment
         android:id="@+id/gameFragment"
@@ -32,6 +35,14 @@
         android:label="game1PlayerFragment" >
         <action
             android:id="@+id/action_game1PlayerFragment_to_menu"
+            app:destination="@id/menu" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.example.reversi.SettingsFragment"
+        android:label="SettingsFragment" >
+        <action
+            android:id="@+id/action_settingsFragment_to_menu"
             app:destination="@id/menu" />
     </fragment>
 </navigation>

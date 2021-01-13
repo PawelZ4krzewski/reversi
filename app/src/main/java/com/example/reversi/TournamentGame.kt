@@ -6,20 +6,20 @@ import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.util.TypedValue
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.navArgs
 import java.io.File
 import kotlin.math.roundToInt
 
 
-class Game2PlayerFragment : Fragment() {
+class TournamentGame : Fragment() {
 
-    private val itemViewModel: ItemViewModel by activityViewModels()
+    val args: TournamentGameArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,6 +47,7 @@ class Game2PlayerFragment : Fragment() {
             Log.d("SettingsFragment", "Plik juz istnieje")
         }
 
+
         val tekst = myFile.bufferedReader().readLines()
         for(x in tekst)
         {
@@ -65,11 +66,25 @@ class Game2PlayerFragment : Fragment() {
                 }
             }
         }
+        val linesTournament = readTournamentInformation()
+
+
+//        val playersName = linesTournament[2+linesTournament[2].toInt()].split(" vs ")
+
+//        for(x  in linesTournament)
+//        {
+//            Log.d("TournamentFragment", "DANE Z PLIKU: $x")
+//        }
+
+        val playerAName  = linesTournament[2+linesTournament[1].toInt()+linesTournament[0].toInt()].split(" vs ")[0]
+        val playerBName  = linesTournament[2+linesTournament[1].toInt()+linesTournament[0].toInt()].split(" vs ")[1]
+//        val playerAName  = "PlayerA"
+//        val playerBName  = "PlayerB"
+
         val board = Board(boardSize)
-        val playerA = userPlayer(playerAColor, itemViewModel.player)
-        val playerB = userPlayer(playerBColor, "PlayerB")
+        val playerA = userPlayer(playerAColor, playerAName)
+        val playerB = userPlayer(playerBColor, playerBName)
         val game = GameTwoPlayers(playerA, playerB, board, buttonSize)
-        askAboutPlayer(view, game)
         createBoard(view, game)
 
         val resetButton = view.findViewById<Button>(R.id.resetButton)
@@ -158,43 +173,31 @@ class Game2PlayerFragment : Fragment() {
 
         val winnerText = v.findViewById<TextView>(R.id.textViewWinner)
         Log.d("gameFragment","${winnerText}")
-            when {
-                game.playerA.amountOfPawns > game.playerB.amountOfPawns -> {
-                    winnerText.text = "${game.playerA.getName()} \n WINS!"
-                }
-                game.playerA.amountOfPawns < game.playerB.amountOfPawns -> {
-                    winnerText.text = "${game.playerB.getName()} \n WINS!"
-                }
-                else -> {
-                    winnerText.text = "REMIS"
-                }
+        when {
+            game.playerA.amountOfPawns > game.playerB.amountOfPawns -> {
+                saveTournamentInformation(2,0)
+                winnerText.text = "${game.playerA.getName()} \n WINS!"
             }
-            val resetButton = v.findViewById<Button>(R.id.buttonRetryDialog)
-            resetButton.setOnClickListener() {
-                Log.d("gameFragment","NIE DZIALA")
+            game.playerA.amountOfPawns < game.playerB.amountOfPawns -> {
+                saveTournamentInformation(0,2)
+                winnerText.text = "${game.playerB.getName()} \n WINS!"
             }
-
-            val buttonExit = v.findViewById<Button>(R.id.buttonExitDialog)
-            buttonExit.setOnClickListener()
-            {
-                Log.d("gameFragment","EXIT BUTTON")
-                view.findNavController().navigate(R.id.action_gameFragment_to_menu)
-                dialog?.dismiss()
+            else -> {
+                saveTournamentInformation(1,1)
+                winnerText.text = "REMIS"
             }
+        }
+        val resetButton = v.findViewById<Button>(R.id.buttonRetryDialog)
+        resetButton.setOnClickListener() {
+            Log.d("gameFragment","NIE DZIALA")
+        }
 
-        builder.setView(v)
-        dialog = builder.create()
-        dialog.show()
-    }
-
-    private fun askAboutPlayer(view: View, game: GameTwoPlayers){
-        var dialog: AlertDialog? = null
-        val builder = AlertDialog.Builder(requireContext())
-        val v = layoutInflater.inflate(R.layout.ask_name_of_player, null)
-
-        v.findViewById<Button>(R.id.buttonSendPlayer2Name).setOnClickListener(){
-            game.playerB.setName(v.findViewById<EditText>(R.id.editTextPlayer2Name).text.toString())
-            updateScore(view,game)
+        val buttonExit = v.findViewById<Button>(R.id.buttonExitDialog)
+        buttonExit.setOnClickListener()
+        {
+            Log.d("gameFragment","EXIT BUTTON")
+            TournamentGameDirections.actionTournamentGame2ToTournamentInformation(args.tournamentNameGame)
+            view.findNavController().navigate(TournamentGameDirections.actionTournamentGame2ToTournamentInformation(args.tournamentNameGame))
             dialog?.dismiss()
         }
 
@@ -202,6 +205,7 @@ class Game2PlayerFragment : Fragment() {
         dialog = builder.create()
         dialog.show()
     }
+
 
     private fun createDefaultButton(game: GameTwoPlayers): Button {
         return Button(requireContext()).apply {
@@ -218,6 +222,109 @@ class Game2PlayerFragment : Fragment() {
             "${game.playerA.getName()}  \n ${game.playerA.amountOfPawns}"
         view.findViewById<TextView>(R.id.textViewB).text =
             "${game.playerB.getName()}  \n ${game.playerB.amountOfPawns}"
-        view.findViewById<TextView>(R.id.currentPlayer).text = "${game.currentPlayer}"
+        view.findViewById<TextView>(R.id.currentPlayer).text = game.currentPlayer
     }
+
+    private fun readTournamentInformation() : List<String>
+    {
+        val tournamentName = args.tournamentNameGame
+        Log.d("TournamentFragment", "TOURNAMENT NAME $tournamentName.txt")
+        val myFile = File(requireContext().filesDir,"$tournamentName.txt")
+        val isFile = myFile.createNewFile()
+        if(isFile)
+        {
+            Log.d("TournamentFragment", "Utworzono nowy plik o nazwie $tournamentName.txt")
+        }
+        else
+        {
+            Log.d("TournamentFragment", "Plik o nazwie $tournamentName.txt juz istnieje")
+        }
+
+        val lines = myFile.bufferedReader().readLines()
+
+        return lines
+    }
+
+    private fun saveTournamentInformation(aPoint: Int, bPoint: Int)
+    {
+        val tournamentName = args.tournamentNameGame
+        Log.d("TournamentFragment", "TOURNAMENT NAME $tournamentName.txt")
+        val myFile = File(requireContext().filesDir,"$tournamentName.txt")
+        val isFile = myFile.createNewFile()
+        if(isFile)
+        {
+            Log.d("TournamentFragment", "Utworzono nowy plik o nazwie $tournamentName.txt")
+        }
+        else
+        {
+            Log.d("TournamentFragment", "Plik o nazwie $tournamentName.txt juz istnieje")
+        }
+
+        val lines = myFile.bufferedReader().readLines()
+        val playerA  = lines[2+lines[1].toInt()+lines[0].toInt()].split(" vs ")[0]
+        val playerB  = lines[2+lines[1].toInt()+lines[0].toInt()].split(" vs ")[1]
+
+        Log.d("TournamentFragment", "CO JEST W PLIKU!!!!! PRZED ZAPISEM")
+        for(x in lines)
+        {
+            Log.d("TournamentFragment", x)
+        }
+
+        for(x in 0 until lines.size) {
+            Log.d("TournamentFragment",lines[x])
+            if(x == 0){
+                myFile.writeText("${lines[0]}\n")
+                Log.d("TournamentFragment","na $x zapisuje ${lines[0]}")
+            }
+            else if(x == 1){
+                myFile.appendText("${(lines[1].toInt()+1)}\n")
+                Log.d("TournamentFragment","na $x zapisuje ${lines[1].toInt()+1}")
+            }
+            else if(lines[x].split(":")[0] == playerA)
+            {
+                myFile.appendText("${lines[x].split(":")[0]}:${lines[x].split(":")[1].toInt()  + aPoint}\n")
+                Log.d("TournamentFragment","na $x zapisuje ${lines[x].split(":")[0]}:${lines[x].split(":")[1].toInt() + aPoint}")
+            }
+            else if(lines[x].split(":")[0] == playerB)
+            {
+                myFile.appendText("${lines[x].split(":")[0]}:${lines[x].split(":")[1].toInt() + bPoint}\n")
+                Log.d("TournamentFragment","na $x zapisuje ${lines[x].split(":")[0]}:${lines[x].split(":")[1].toInt()  + aPoint}")
+            }
+            else if(1<x && x<2+lines[1].toInt()) {
+                if(lines[x].split(":")[0] == playerA)
+                {
+                    myFile.appendText("${lines[x].split(":")[0]}:${lines[x].split(":")[1].toInt() + aPoint}\n")
+                    Log.d("TournamentFragment","na $x zapisuje ${lines[x].split(":")[0]}:${lines[x].split(":")[1].toInt() + aPoint}")
+                }
+                else if(lines[x].split(":")[0] == playerB)
+                {
+                    myFile.appendText("${lines[x].split(":")[0]}:${lines[x].split(":")[1].toInt() + bPoint}\n")
+                    Log.d("TournamentFragment","na $x zapisuje ${lines[x].split(":")[0]}:${lines[x].split(":")[1].toInt() + bPoint}")
+                }
+                else
+                {
+                    myFile.appendText("${lines[x]}\n")
+                }
+            }
+            else if(x == 2+lines[1].toInt()+lines[0].toInt())
+            {
+                myFile.appendText("${lines[x]}:$aPoint;$bPoint\n")
+                Log.d("TournamentFragment","na $x zapisuje ${lines[x]}:$aPoint;$bPoint")
+
+            }
+            else {
+                myFile.appendText("${lines[x]}\n")
+                Log.d("TournamentFragment", "na $x zapisano ${lines[x]}")
+            }
+        }
+
+        Log.d("TournamentFragment", "CO JEST W PLIKU!!!!!")
+        val lines2 = myFile.bufferedReader().readLines()
+        for(x in lines2)
+        {
+            Log.d("TournamentFragment", x)
+        }
+    }
+
+
 }

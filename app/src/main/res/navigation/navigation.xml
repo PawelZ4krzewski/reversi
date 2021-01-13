@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation"
-    app:startDestination="@id/menu">
+    app:startDestination="@id/loginRegister">
 
     <fragment
         android:id="@+id/menu"
@@ -19,6 +19,9 @@
         <action
             android:id="@+id/action_menu_to_settingsFragment"
             app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_menu_to_tournamentFragment"
+            app:destination="@id/tournamentFragment" />
     </fragment>
     <fragment
         android:id="@+id/gameFragment"
@@ -44,5 +47,52 @@
         <action
             android:id="@+id/action_settingsFragment_to_menu"
             app:destination="@id/menu" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginRegister"
+        android:name="com.example.reversi.LoginRegister"
+        android:label="fragment_login_register"
+        tools:layout="@layout/fragment_login_register" >
+        <action
+            android:id="@+id/action_loginRegister_to_menu"
+            app:destination="@id/menu" />
+    </fragment>
+    <fragment
+        android:id="@+id/tournamentFragment"
+        android:name="com.example.reversi.TournamentFragment"
+        android:label="fragment_tournament"
+        tools:layout="@layout/fragment_tournament" >
+        <action
+            android:id="@+id/action_tournamentFragment_to_tournamentInformation"
+            app:destination="@id/tournamentInformation" />
+    </fragment>
+    <fragment
+        android:id="@+id/tournamentInformation"
+        android:name="com.example.reversi.TournamentInformation"
+        android:label="fragment_tournament_information"
+        tools:layout="@layout/fragment_tournament_information" >
+        <action
+            android:id="@+id/action_tournamentInformation_to_menu"
+            app:destination="@id/menu" />
+        <argument
+            android:name="tournamentName"
+            app:argType="string"
+            app:nullable="true" />
+        <action
+            android:id="@+id/action_tournamentInformation_to_tournamentGame22"
+            app:destination="@id/tournamentGame" />
+    </fragment>
+    <fragment
+        android:id="@+id/tournamentGame"
+        android:name="com.example.reversi.TournamentGame"
+        android:label="fragment_tournament_game"
+        tools:layout="@layout/fragment_tournament_game" >
+        <action
+            android:id="@+id/action_tournamentGame2_to_tournamentInformation"
+            app:destination="@id/tournamentInformation" />
+        <argument
+            android:name="tournamentNameGame"
+            app:argType="string"
+            app:nullable="true" />
     </fragment>
 </navigation>

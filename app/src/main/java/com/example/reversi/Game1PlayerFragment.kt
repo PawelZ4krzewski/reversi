@@ -11,13 +11,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.navArgs
 import java.io.File
 import kotlin.math.log
 import kotlin.math.roundToInt
 
 
 class Game1PlayerFragment : Fragment() {
+
+    private val itemViewModel: ItemViewModel by activityViewModels()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -66,7 +71,7 @@ class Game1PlayerFragment : Fragment() {
         }
 
         val board = Board(boardSize)
-        val playerA = userPlayer(playerAColor, "PlayerA")
+        val playerA = userPlayer(playerAColor, itemViewModel.player)
         val playerB = Bot(playerBColor, "PlayerB")
         val game = GameOnePlayer(playerA, playerB, board, buttonSize)
         game.currentPlayer = playerAColor

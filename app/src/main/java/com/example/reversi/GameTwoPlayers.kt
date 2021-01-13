@@ -22,7 +22,7 @@ class GameTwoPlayers(playerA: userPlayer, val playerB: userPlayer, board: Board,
 
     override fun isOver() : Boolean
     {
-        if((!board.justFindEnemy(playerA, playerB) && !board.justFindEnemy(playerB, playerA)) || emptyFields == 0)
+        if((!board.justFindEnemy(playerA, playerB) && !board.justFindEnemy(playerB, playerA)) || playerB.amountOfPawns+playerA.amountOfPawns == board.boardSize*board.boardSize)
         {
             Log.d("Game","KONIEC GRY")
             return true

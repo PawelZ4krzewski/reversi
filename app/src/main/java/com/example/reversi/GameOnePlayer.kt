@@ -23,7 +23,7 @@ class GameOnePlayer(playerA: userPlayer, bot: Bot, board: Board, buttonSize: Int
     }
     override fun isOver() : Boolean
     {
-        if((!board.justFindEnemy(this.playerA, bot) && !board.justFindEnemy(bot, playerA)) || emptyFields == 0)
+        if((!board.justFindEnemy(this.playerA, bot) && !board.justFindEnemy(bot, playerA)) || bot.amountOfPawns+playerA.amountOfPawns == board.boardSize*board.boardSize)
         {
             Log.d("Game","KONIEC GRY")
             return true

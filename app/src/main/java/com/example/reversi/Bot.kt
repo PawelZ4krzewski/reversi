@@ -36,7 +36,7 @@ class Bot(color: String, name: String): Player(color, name) {
             }
         }
 
-        return listOfAvailableMove[(0..(sizeOfMutableList-1)).random()].toIntArray()
+        return listOfAvailableMove[(0 until sizeOfMutableList).random()].toIntArray()
     }
 
 

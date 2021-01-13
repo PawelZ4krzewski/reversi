@@ -1,8 +1,16 @@
 package com.example.reversi
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.graphics.Color
+import android.graphics.drawable.AnimationDrawable
+import android.graphics.drawable.Drawable
+import android.graphics.drawable.TransitionDrawable
 import android.util.Log
+import android.view.animation.AlphaAnimation
 import android.widget.Button
+import androidx.appcompat.content.res.AppCompatResources.getDrawable
+import kotlinx.coroutines.delay
 import kotlin.math.max
 import kotlin.math.min
 
@@ -173,13 +181,19 @@ class Board(val boardSize: Int) {
             "currentPlayerColor ${currentPlayer.color} currentColor $currentColor"
         )
         if (currentColor == currentPlayer.color) {
-            board[i][j].button.setBackgroundColor(
-                Color.parseColor(
-                    board[i][j].setColor(
-                        currentPlayer.color
-                    )
-                )
-            )
+
+//            val b = .getResources().getDrawable(R.drawable.custom_progressbargreen);
+//            val colors = arrayOf(getDrawable(,board[i][j].setColor(currentPlayer.color)),board[i][j].setColor(enemy.color))
+//            val transition = TransitionDrawable(colors)
+            board[i][j].button.animate().alpha(0.75f).setDuration(200).setListener(object: AnimatorListenerAdapter() {
+                override fun onAnimationEnd(animation: Animator?) {
+                    board[i][j].button.setImageResource(board[i][j].setColor(currentPlayer.color))
+                    board[i][j].button.animate().alpha(1.0f).setDuration(500).setListener(null)
+                }
+            })
+//            board[i][j].button.setImageDrawable(transition)
+//            transition.startTransition(500)
+
             currentPlayer.amountOfPawns++
             if (!new) {
                 enemy.amountOfPawns--

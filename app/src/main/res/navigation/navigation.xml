@@ -12,16 +12,32 @@
         tools:layout="@layout/fragment_menu" >
         <action
             android:id="@+id/action_menu_to_gameFragment"
-            app:destination="@id/gameFragment" />
+            app:destination="@id/gameFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
         <action
             android:id="@+id/action_menu_to_game1PlayerFragment"
-            app:destination="@id/game1PlayerFragment" />
+            app:destination="@id/game1PlayerFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
         <action
             android:id="@+id/action_menu_to_settingsFragment"
-            app:destination="@id/settingsFragment" />
+            app:destination="@id/settingsFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
         <action
             android:id="@+id/action_menu_to_tournamentFragment"
-            app:destination="@id/tournamentFragment" />
+            app:destination="@id/tournamentFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
     </fragment>
     <fragment
         android:id="@+id/gameFragment"
@@ -30,7 +46,11 @@
         tools:layout="@layout/fragment_game2_player" >
         <action
             android:id="@+id/action_gameFragment_to_menu"
-            app:destination="@id/menu" />
+            app:destination="@id/menu"
+            app:enterAnim="@anim/from_left"
+            app:exitAnim="@anim/to_right"
+            app:popEnterAnim="@anim/from_right"
+            app:popExitAnim="@anim/to_left" />
     </fragment>
     <fragment
         android:id="@+id/game1PlayerFragment"
@@ -38,7 +58,11 @@
         android:label="game1PlayerFragment" >
         <action
             android:id="@+id/action_game1PlayerFragment_to_menu"
-            app:destination="@id/menu" />
+            app:destination="@id/menu"
+            app:enterAnim="@anim/from_left"
+            app:exitAnim="@anim/to_right"
+            app:popEnterAnim="@anim/from_right"
+            app:popExitAnim="@anim/to_left" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
@@ -46,7 +70,11 @@
         android:label="SettingsFragment" >
         <action
             android:id="@+id/action_settingsFragment_to_menu"
-            app:destination="@id/menu" />
+            app:destination="@id/menu"
+            app:enterAnim="@anim/from_left"
+            app:exitAnim="@anim/to_right"
+            app:popEnterAnim="@anim/from_right"
+            app:popExitAnim="@anim/to_left" />
     </fragment>
     <fragment
         android:id="@+id/loginRegister"
@@ -55,7 +83,11 @@
         tools:layout="@layout/fragment_login_register" >
         <action
             android:id="@+id/action_loginRegister_to_menu"
-            app:destination="@id/menu" />
+            app:destination="@id/menu"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
     </fragment>
     <fragment
         android:id="@+id/tournamentFragment"
@@ -64,7 +96,11 @@
         tools:layout="@layout/fragment_tournament" >
         <action
             android:id="@+id/action_tournamentFragment_to_tournamentInformation"
-            app:destination="@id/tournamentInformation" />
+            app:destination="@id/tournamentInformation"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
     </fragment>
     <fragment
         android:id="@+id/tournamentInformation"
@@ -73,14 +109,22 @@
         tools:layout="@layout/fragment_tournament_information" >
         <action
             android:id="@+id/action_tournamentInformation_to_menu"
-            app:destination="@id/menu" />
+            app:destination="@id/menu"
+            app:enterAnim="@anim/from_left"
+            app:exitAnim="@anim/to_right"
+            app:popEnterAnim="@anim/from_right"
+            app:popExitAnim="@anim/to_left" />
         <argument
             android:name="tournamentName"
             app:argType="string"
             app:nullable="true" />
         <action
             android:id="@+id/action_tournamentInformation_to_tournamentGame22"
-            app:destination="@id/tournamentGame" />
+            app:destination="@id/tournamentGame"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
     </fragment>
     <fragment
         android:id="@+id/tournamentGame"
@@ -89,7 +133,11 @@
         tools:layout="@layout/fragment_tournament_game" >
         <action
             android:id="@+id/action_tournamentGame2_to_tournamentInformation"
-            app:destination="@id/tournamentInformation" />
+            app:destination="@id/tournamentInformation"
+            app:enterAnim="@anim/from_left"
+            app:exitAnim="@anim/to_right"
+            app:popEnterAnim="@anim/from_right"
+            app:popExitAnim="@anim/to_left" />
         <argument
             android:name="tournamentNameGame"
             app:argType="string"

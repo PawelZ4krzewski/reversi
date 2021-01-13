@@ -9,6 +9,7 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AlphaAnimation
 import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -115,11 +116,11 @@ class Game1PlayerFragment : Fragment() {
                 val pawnButton = PawnButton(createDefaultButton(game), "X", i, j)
 
                 if (i == (game.board.boardSize / 2 * 1.0).roundToInt() && j == (game.board.boardSize / 2 * 1.0).roundToInt() || (i == (game.board.boardSize / 2 * 1.0).roundToInt() - 1 && j == (game.board.boardSize / 2 * 1.0).roundToInt() - 1)) {
-                    pawnButton.button.setBackgroundColor(Color.parseColor(pawnButton.setColor(game.bot.color)))
+                    pawnButton.button.setImageResource(pawnButton.setColor(game.bot.color))
                 }
 
                 if ((i == (game.board.boardSize / 2 * 1.0).roundToInt() - 1 && j == (game.board.boardSize / 2 * 1.0).roundToInt()) || (i == (game.board.boardSize / 2 * 1.0).roundToInt() && j == (game.board.boardSize / 2 * 1.0).roundToInt() - 1)) {
-                    pawnButton.button.setBackgroundColor(Color.parseColor(pawnButton.setColor(game.playerA.color)))
+                    pawnButton.button.setImageResource(pawnButton.setColor(game.playerA.color))
                 }
 
                 column.addView(pawnButton.button)
@@ -202,11 +203,11 @@ class Game1PlayerFragment : Fragment() {
     }
 
 
-    private fun createDefaultButton(game: GameOnePlayer): Button {
-        return Button(requireContext()).apply {
-            setBackgroundColor(Color.parseColor("#006200"))
+    private fun createDefaultButton(game: GameOnePlayer): ImageButton {
+        return ImageButton(requireContext()).apply {
+            setBackgroundResource(R.drawable.board_button_background)
             layoutParams = LinearLayout.LayoutParams(game.buttonSize, game.buttonSize)
-                .apply { setMargins(5, 5, 5, 5) }
+                .apply { setMargins(3,3, 3, 3) }
             id = View.generateViewId()
         }
     }

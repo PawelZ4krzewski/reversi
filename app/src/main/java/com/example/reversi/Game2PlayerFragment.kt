@@ -108,12 +108,12 @@ class Game2PlayerFragment : Fragment() {
 
                 val pawnButton = PawnButton(createDefaultButton(game), "X", i, j)
 
-                if (i == (game.board.boardSize/2 * 1.0).roundToInt() && j == (game.board.boardSize/2 * 1.0).roundToInt() || (i == (game.board.boardSize/2 * 1.0).roundToInt() - 1  && j == (game.board.boardSize/2 * 1.0).roundToInt() - 1)) {
-                    pawnButton.button.setBackgroundColor(Color.parseColor(pawnButton.setColor(game.playerB.color)))
+                if (i == (game.board.boardSize / 2 * 1.0).roundToInt() && j == (game.board.boardSize / 2 * 1.0).roundToInt() || (i == (game.board.boardSize / 2 * 1.0).roundToInt() - 1 && j == (game.board.boardSize / 2 * 1.0).roundToInt() - 1)) {
+                    pawnButton.button.setImageResource(pawnButton.setColor(game.playerB.color))
                 }
 
-                if ((i == (game.board.boardSize/2 * 1.0).roundToInt() - 1 && j == (game.board.boardSize/2 * 1.0).roundToInt()) || (i == (game.board.boardSize/2 * 1.0).roundToInt() && j == (game.board.boardSize/2 * 1.0).roundToInt() - 1)) {
-                    pawnButton.button.setBackgroundColor(Color.parseColor(pawnButton.setColor(game.playerA.color)))
+                if ((i == (game.board.boardSize / 2 * 1.0).roundToInt() - 1 && j == (game.board.boardSize / 2 * 1.0).roundToInt()) || (i == (game.board.boardSize / 2 * 1.0).roundToInt() && j == (game.board.boardSize / 2 * 1.0).roundToInt() - 1)) {
+                    pawnButton.button.setImageResource(pawnButton.setColor(game.playerA.color))
                 }
 
                 column.addView(pawnButton.button)
@@ -203,9 +203,9 @@ class Game2PlayerFragment : Fragment() {
         dialog.show()
     }
 
-    private fun createDefaultButton(game: GameTwoPlayers): Button {
-        return Button(requireContext()).apply {
-            setBackgroundColor(Color.parseColor("#006200"))
+    private fun createDefaultButton(game: GameTwoPlayers): ImageButton {
+        return ImageButton(requireContext()).apply {
+            setBackgroundResource(R.drawable.board_button_background)
             layoutParams = LinearLayout.LayoutParams(game.buttonSize, game.buttonSize)
                 .apply { setMargins(5, 5, 5, 5) }
             id = View.generateViewId()

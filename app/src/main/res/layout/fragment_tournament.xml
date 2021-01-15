@@ -29,7 +29,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextTournament"
-        app:layout_constraintVertical_bias="0.26999998">
+        app:layout_constraintVertical_bias="0.13999999">
 
         <ScrollView
             android:layout_width="match_parent"
@@ -39,14 +39,14 @@
                 android:id="@+id/linearLayoutPlayersInTournament"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical" >
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/textViewAdmin"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="TextView"
-                    android:textSize="15dp"/>
+                    android:textSize="15dp" />
             </LinearLayout>
         </ScrollView>
 
@@ -56,14 +56,14 @@
         android:id="@+id/editTextNextPlayerName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="68dp"
         android:ems="10"
         android:hint="Name"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayoutPlayersInTournamentMain"
-        app:layout_constraintVertical_bias="0.19" />
+        app:layout_constraintVertical_bias="0.120000005" />
 
     <Button
         android:id="@+id/buttonAddPlayerToTournament"
@@ -74,7 +74,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextNextPlayerName"
-        app:layout_constraintVertical_bias="0.22" />
+        app:layout_constraintVertical_bias="0.060000002" />
 
     <Button
         android:id="@+id/buttonStartTournament"
@@ -84,6 +84,42 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonAddPlayerToTournament" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonAddPlayerToTournament"
+        app:layout_constraintVertical_bias="0.120000005" />
+
+    <Button
+        android:id="@+id/buttonLoadTournament"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Load Tournament"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonStartTournament"
+        app:layout_constraintVertical_bias="0.135" />
+
+    <Button
+        android:id="@+id/buttonExitToMenu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Back To menu"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonLoadTournament" />
+
+    <TextView
+        android:id="@+id/textViewErrorTournament"
+        android:layout_width="wrap_content"
+        android:maxWidth="300dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:shadowColor="#FFFFFF"
+        android:text=""
+        android:textColor="#EC0101"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayoutPlayersInTournamentMain"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextTournament" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

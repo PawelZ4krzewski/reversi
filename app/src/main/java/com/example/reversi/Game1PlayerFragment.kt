@@ -41,24 +41,19 @@ class Game1PlayerFragment : Fragment() {
         var playerAColor = "B"
         var playerBColor = "W"
 
-        val myFile = File(requireContext().filesDir,"gameSettings.txt")
+        val myFile = File(requireContext().filesDir, "gameSettings.txt")
         val isFile = myFile.createNewFile()
-        if(isFile)
-        {
+        if (isFile) {
             Log.d("SettingsFragment", "Utworzono nowy plik")
-        }
-        else
-        {
+        } else {
             Log.d("SettingsFragment", "Plik juz istnieje")
         }
 
         val tekst = myFile.bufferedReader().readLines()
-        for(x in tekst)
-        {
+        for (x in tekst) {
             val settingLine = x.split(" ")
 
-            when(settingLine[0])
-            {
+            when (settingLine[0]) {
                 "boardSize" -> {
                     boardSize = settingLine[1].toInt()
                 }
@@ -135,7 +130,6 @@ class Game1PlayerFragment : Fragment() {
                             if (game.currentPlayer == game.playerA.color) game.bot else game.playerA
                         )
                     ) {
-                        Toast.makeText(requireContext(), "Bledny ruch", Toast.LENGTH_SHORT).show()
                         Log.d("Game1PlayerFragment", "Bledny RUCH")
                     } else {
                         game.emptyFields--
@@ -145,15 +139,9 @@ class Game1PlayerFragment : Fragment() {
                         updateScore(view, game)
                         if (game.isOver()) {
                             openGameOverDialog(view, game)
-                        } else if (game.currentPlayer == game.bot.color) {
+                        } else if(game.currentPlayer == game.bot.color) {
                             Log.d("Game1PlayerFragment", "Tura Bota")
-                            val kordsBot = game.bot.botMove(game.board, game.playerA)
-                            Log.d(
-                                "Game1PlayerFragment",
-                                "Bot ruszyl sie na i = ${kordsBot[1]} j =  ${kordsBot[2]}"
-                            )
-//                            Thread.sleep(200L)
-                            game.board.board[kordsBot[1]][kordsBot[2]].button.performClick()
+
                         }
                     }
 
@@ -207,7 +195,7 @@ class Game1PlayerFragment : Fragment() {
         return ImageButton(requireContext()).apply {
             setBackgroundResource(R.drawable.board_button_background)
             layoutParams = LinearLayout.LayoutParams(game.buttonSize, game.buttonSize)
-                .apply { setMargins(3,3, 3, 3) }
+                .apply { setMargins(3, 3, 3, 3) }
             id = View.generateViewId()
         }
     }

@@ -15,6 +15,7 @@ class Bot(color: String, name: String): Player(color, name) {
         var p = 0
         var sizeOfMutableList = 0
         val listOfAvailableMove = mutableListOf<MutableList<Int>>() // i j 1
+
         for(i in 0 until board.boardSize)
         {
             for(j in 0 until board.boardSize)
@@ -36,7 +37,11 @@ class Bot(color: String, name: String): Player(color, name) {
             }
         }
 
-        return listOfAvailableMove[(0 until sizeOfMutableList).random()].toIntArray()
+        if(listOfAvailableMove.isNotEmpty())
+        {
+            return listOfAvailableMove[(0 until sizeOfMutableList).random()].toIntArray()
+        }
+        return listOf(-1,-1,-1).toIntArray()
     }
 
 

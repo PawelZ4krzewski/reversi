@@ -47,22 +47,30 @@ class Board(val boardSize: Int) {
         }
         return correctMove
     }
-    fun justFindEnemy(currentPlayer: Player, enemy: Player): Boolean
+
+    fun justFindEnemy(currentPlayer: Player, enemy: Player): IntArray
     {
+        Log.d(
+            "board",
+            "JUST FIND ENEMY"
+        )
         for(i in 0 until boardSize)
         {
             for(j in 0 until boardSize)
             {
                 if(board[i][j].color == "X")
                 {
-                    if(findEnemy(i,j,currentPlayer,enemy,true))
-                    {
-                        return true
+                    Log.d(
+                        "board",
+                        "JUST FIND ENEMY - i: $i j:$j color: ${board[i][j].color}"
+                    )
+                    if(findEnemy(i,j,currentPlayer,enemy,true)) {
+                        return listOf(1,i,j).toIntArray()
                     }
                 }
             }
         }
-        return false
+        return listOf(0).toIntArray()
     }
     private fun findEnemy(i: Int, j: Int, currentPlayer: Player, enemy: Player, justFind: Boolean = false): Boolean {
         var correctMove = false
@@ -194,6 +202,7 @@ class Board(val boardSize: Int) {
 //            board[i][j].button.setImageDrawable(transition)
 //            transition.startTransition(500)
 
+            board[i][j].color=currentColor
             currentPlayer.amountOfPawns++
             if (!new) {
                 enemy.amountOfPawns--

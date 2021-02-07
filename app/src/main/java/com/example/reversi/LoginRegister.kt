@@ -70,7 +70,7 @@ class LoginRegister : Fragment() {
                 }
             }
 
-            if(isNotExistUser)
+            if(!isNotExistUser)
             {
                 errorText.text = "User is not exist"
             }

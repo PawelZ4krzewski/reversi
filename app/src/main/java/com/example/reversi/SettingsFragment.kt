@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.RadioButton
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import kotlinx.android.synthetic.main.fragment_settings.*
@@ -20,6 +21,8 @@ class SettingsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_settings, container, false)
+
+        readOption(view)
 
         view.findViewById<Button>(R.id.buttonCheck).setOnClickListener()
         {
@@ -106,15 +109,78 @@ class SettingsFragment : Fragment() {
             Log.d("SettingsFragment", "Plik juz istnieje")
         }
 
-        val tekst = myFile.bufferedReader().readLines()
-//        for(x in tekst)
-//        {
-//            Log.d("SettingsFragment", "LINIA: $x")
-//        }
         myFile.writeText("boardSize ")
         myFile.appendText("$boardSize\n")
         myFile.appendText("playerAColor $playerAColor\n")
         myFile.appendText("playerBColor $playerBColor\n")
     }
 
+    private fun readOption(v: View)
+    {
+
+        val myFile = File(requireContext().filesDir,"gameSettings.txt")
+        val isFile = myFile.createNewFile()
+        if(!isFile)
+        {
+            Log.d("SettingsFragment", "Odczytuje z pliku")
+
+            val tekst = myFile.bufferedReader().readLines()
+            for(x in tekst)
+            {
+                val settingLine = x.split(" ")
+
+                when(settingLine[0])
+                {
+                    "boardSize" -> {
+                        when(settingLine[1])
+                        {
+                            "4" ->
+                            {
+                                v.findViewById<RadioButton>(R.id.radioButtonBoardSize4).isChecked=true
+                            }
+                            "6" ->
+                            {
+                                v.findViewById<RadioButton>(R.id.radioButtonBoardSize6).isChecked=true
+                            }
+                            "8" ->
+                            {
+                                v.findViewById<RadioButton>(R.id.radioButtonBoardSize8).isChecked=true
+                            }
+                        }
+                    }
+                    "playerAColor" -> {
+                        when(settingLine[1]) {
+                            "B" -> {
+                                v.findViewById<RadioButton>(R.id.radioButtonBlack).isChecked = true
+                            }
+                            "R" -> {
+                                v.findViewById<RadioButton>(R.id.radioButtonRed).isChecked = true
+                            }
+                            "DW" -> {
+                                v.findViewById<RadioButton>(R.id.radioButtonDarKWood).isChecked =
+                                    true
+                            }
+                        }
+                    }
+                    "playerBColor" -> {
+                        when(settingLine[1]) {
+                            "W" -> {
+                                v.findViewById<RadioButton>(R.id.radioButtonWhite).isChecked = true
+                            }
+                            "Y" -> {
+                                v.findViewById<RadioButton>(R.id.radioButtonYellow).isChecked = true
+                            }
+                            "LW" -> {
+                                v.findViewById<RadioButton>(R.id.radioButtonLightWood).isChecked =
+                                    true
+                            }
+                        }
+                    }
+                }
+            }
+
+        }
+
+
+    }
 }

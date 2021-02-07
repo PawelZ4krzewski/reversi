@@ -169,10 +169,6 @@ class Game2PlayerFragment : Fragment() {
                     winnerText.text = "REMIS"
                 }
             }
-            val resetButton = v.findViewById<Button>(R.id.buttonRetryDialog)
-            resetButton.setOnClickListener() {
-                Log.d("gameFragment","NIE DZIALA")
-            }
 
             val buttonExit = v.findViewById<Button>(R.id.buttonExitDialog)
             buttonExit.setOnClickListener()

@@ -5,15 +5,63 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:id="@+id/settingText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SETTINGS"
+        android:textSize="36sp"
+        app:layout_constraintBottom_toTopOf="@+id/radioGroupBoardSize"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.22000003" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/linearLayoutBoardsSizes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/radioGroupBoardSize"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/settingText"
+        app:layout_constraintVertical_bias="0.96">
+
+        <ImageView
+            android:id="@+id/ImageViewboard4x4Image"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="50dp"
+            app:srcCompat="@drawable/board4x4" />
+
+        <ImageView
+            android:id="@+id/ImageViewboard6x6Image"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginRight="50dp"
+            app:srcCompat="@drawable/board6x6" />
+        <ImageView
+            android:id="@+id/ImageViewboard8x8Image"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginRight="50dp"
+            app:srcCompat="@drawable/board8x8" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
     <RadioGroup
         android:id="@+id/radioGroupBoardSize"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:orientation="horizontal">
+        app:layout_constraintVertical_bias="0.3">
 
 
         <RadioButton
@@ -38,6 +86,41 @@
             android:text="8x8" />
     </RadioGroup>
 
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@id/darkPawns"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/radioGroupColorPlayerA"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/radioGroupBoardSize"
+        app:layout_constraintVertical_bias="1.0">
+
+
+        <ImageView
+            android:id="@+id/black"
+
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="50dp"
+            app:srcCompat="@drawable/ic_black_pawn" />
+
+        <ImageView
+            android:id="@+id/red"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_red_pawn" />
+
+        <ImageView
+            android:id="@+id/dw"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            app:srcCompat="@drawable/ic_dw_pawn" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
     <RadioGroup
         android:id="@+id/radioGroupColorPlayerA"
         android:layout_width="wrap_content"
@@ -46,13 +129,15 @@
         app:layout_constraintBottom_toTopOf="@+id/buttonCheck"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radioGroupBoardSize">
+        app:layout_constraintTop_toBottomOf="@+id/radioGroupBoardSize"
+        app:layout_constraintVertical_bias="0.32999998">
 
 
         <RadioButton
             android:id="@+id/radioButtonBlack"
             android:layout_width="80dp"
             android:layout_height="wrap_content"
+            android:drawablePadding="-20dp"
             android:text="Black" />
 
         <RadioButton
@@ -67,10 +152,43 @@
         <RadioButton
             android:id="@+id/radioButtonDarKWood"
             android:layout_width="80dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:text="Dark Wood"
-            android:textAlignment="center"/>
+            android:textAlignment="center" />
+
     </RadioGroup>
+
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@id/ligthPawn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/radioGroupColorPlayerB"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+
+        <ImageView
+            android:id="@+id/white"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="50dp"
+            app:srcCompat="@drawable/ic_white_pawn" />
+
+        <ImageView
+            android:id="@+id/yellow"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_yellow_pawn" />
+
+        <ImageView
+            android:id="@+id/lw"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            app:srcCompat="@drawable/ic_lw_pawn" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
     <RadioGroup
         android:id="@+id/radioGroupColorPlayerB"
@@ -80,7 +198,8 @@
         app:layout_constraintBottom_toTopOf="@+id/buttonCheck"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radioGroupColorPlayerA">
+        app:layout_constraintTop_toBottomOf="@+id/radioGroupColorPlayerA"
+        app:layout_constraintVertical_bias="0.63">
 
 
         <RadioButton
@@ -101,7 +220,7 @@
         <RadioButton
             android:id="@+id/radioButtonLightWood"
             android:layout_width="80dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:text="Light Wood"
             android:textAlignment="center" />
     </RadioGroup>
@@ -114,7 +233,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radioGroupBoardSize" />
+        app:layout_constraintTop_toBottomOf="@+id/radioGroupBoardSize"
+        app:layout_constraintVertical_bias="0.83" />
 
 
 

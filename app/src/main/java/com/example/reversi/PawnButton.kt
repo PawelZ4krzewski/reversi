@@ -17,26 +17,26 @@ class PawnButton(val button: ImageButton, var color: String, val x: Int, val y: 
                 this.color = color
                 return R.drawable.ic_white_pawn
             }
-//            "Y" -> {
-//                this.color = color
-//                return "#FFFF00"
-//            }
-//            "LW" -> {
-//                this.color = color
-//                return "#EEFF00"
-//            }
+            "Y" -> {
+                this.color = color
+                return R.drawable.ic_yellow_pawn
+            }
+            "LW" -> {
+                this.color = color
+                return R.drawable.ic_lw_pawn
+            }
             "B" -> {
                 this.color = color
                 return R.drawable.ic_black_pawn
             }
-//            "R" -> {
-//                this.color = color
-//                return "#FF0000"
-//            }
-//            "DW" -> {
-//                this.color = color
-//                return "#FF0430"
-//            }
+            "R" -> {
+                this.color = color
+                return R.drawable.ic_red_pawn
+            }
+            "DW" -> {
+                this.color = color
+                return R.drawable.ic_dw_pawn
+            }
         }
         return R.drawable.ic_black_pawn
     }

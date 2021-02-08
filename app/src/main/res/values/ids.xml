@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <item name="LinearLayoutboardSizesImages" type="id"></item>
-    <item name="ligthPawn" type="id"></item>
-    <item name="darkPawns" type="id"></item>
-    <item name="ImageViewboard4x4Image" type="id"></item>
-    <item name="ImageViewboard6x6Image" type="id"></item>
-    <item name="ImageViewboard8x8Image" type="id"></item>
+    <item name="LinearLayoutboardSizesImages" type="id" />
+    <item name="ligthPawn" type="id" />
+    <item name="darkPawns" type="id" />
+    <item name="ImageViewboard4x4Image" type="id" />
+    <item name="ImageViewboard6x6Image" type="id" />
+    <item name="ImageViewboard8x8Image" type="id" />
 </resources>

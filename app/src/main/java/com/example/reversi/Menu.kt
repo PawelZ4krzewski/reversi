@@ -32,6 +32,10 @@ class Menu : Fragment() {
             view.findNavController().navigate(R.id.action_menu_to_tournamentFragment)
         }
 
+        view.findViewById<Button>(R.id.buttonRanking).setOnClickListener(){
+            view.findNavController().navigate(R.id.action_menu_to_rankingFragment)
+        }
+
         return view
     }
 

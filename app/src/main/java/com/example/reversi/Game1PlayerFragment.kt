@@ -175,12 +175,15 @@ class Game1PlayerFragment : Fragment() {
         Log.d("gameFragment", "${winnerText}")
         when {
             game.playerA.amountOfPawns > game.bot.amountOfPawns -> {
+                saveRanking(2, game.playerA.getName())
                 winnerText.text = "${game.playerA.getName()} \n WINS!"
             }
             game.playerA.amountOfPawns < game.bot.amountOfPawns -> {
                 winnerText.text = "${game.bot.getName()} \n WINS!"
+                saveRanking(-1, game.playerA.getName())
             }
             else -> {
+                saveRanking(1, game.playerA.getName())
                 winnerText.text = "REMIS"
             }
         }
@@ -196,6 +199,55 @@ class Game1PlayerFragment : Fragment() {
         builder.setView(v)
         dialog = builder.create()
         dialog.show()
+    }
+
+    private fun saveRanking(score: Int, name: String)
+    {
+        val myFile = File(requireContext().filesDir,"ranking.txt")
+        val isFile = myFile.createNewFile()
+        if(isFile)
+        {
+            Log.d("SettingsFragment", "Utworzono nowy plik")
+        }
+        else
+        {
+            Log.d("SettingsFragment", "Plik juz istnieje")
+        }
+
+        val tekst = myFile.bufferedReader().readLines()
+        var i = 0
+        var flag = true
+        for(x in tekst)
+        {
+            val settingLine = x.split(";")
+            if(settingLine[0] == name){
+                flag = false
+                if (i == 0) {
+                    myFile.writeText("$name;${settingLine[1].toInt()+score}\n")
+                }
+                else
+                {
+                    myFile.appendText("$name;${settingLine[1].toInt()+score}\n")
+                }
+            }
+            else
+            {
+                if (i == 0) {
+                    myFile.writeText("$name;${settingLine[1].toInt()}\n")
+                }
+                else
+                {
+                    myFile.appendText("$name;${settingLine[1].toInt()}\n")
+                }
+            }
+            i++
+        }
+
+        if(flag)
+        {
+            myFile.appendText("$name;${score}\n")
+        }
+        
     }
 
 

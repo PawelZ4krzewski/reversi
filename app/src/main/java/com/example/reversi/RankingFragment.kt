@@ -16,6 +16,7 @@ import android.widget.ScrollView
 import android.widget.TextView
 import androidx.navigation.findNavController
 import java.io.File
+import java.nio.file.Files.size
 import kotlin.math.roundToInt
 
 
@@ -45,7 +46,7 @@ class RankingFragment : Fragment() {
     {
         val rankingLinearLayout = v.findViewById<LinearLayout>(R.id.linearLayoutRankingBoard)
 
-        val myFile = File(requireContext().filesDir,"gameSettings.txt")
+        val myFile = File(requireContext().filesDir,"ranking.txt")
         val isFile = myFile.createNewFile()
         if(isFile)
         {
@@ -56,7 +57,22 @@ class RankingFragment : Fragment() {
             Log.d("RankingFragment", "Plik juz istnieje")
         }
 
-        val tekst = myFile.bufferedReader().readLines()
+        val tekst = myFile.bufferedReader().readLines().toMutableList()
+
+        for(i in 0..tekst.size)
+        {
+            for(j in i..tekst.size-1)
+            {
+                val a = tekst[i].split(";")
+                val b = tekst[j].split(";")
+                if(a[1].toInt()<b[1].toInt())
+                {
+                    val temp = tekst[i]
+                    tekst[i]=tekst[j]
+                    tekst[j]=temp
+                }
+            }
+        }
 
         var i = 1;
         for (x in tekst) {
@@ -69,7 +85,7 @@ class RankingFragment : Fragment() {
                 orientation = LinearLayout.HORIZONTAL
             }
 
-            val settingLine = x.split(";")
+            val rankingLine = x.split(";")
 
             val number = TextView(requireContext()).apply{
                 layoutParams = LinearLayout.LayoutParams((50f).dpToPixels().roundToInt(),android.widget.LinearLayout.LayoutParams.WRAP_CONTENT)
@@ -81,7 +97,7 @@ class RankingFragment : Fragment() {
 
             val playerName = TextView(requireContext()).apply{
                 layoutParams = LinearLayout.LayoutParams((175f).dpToPixels().roundToInt(),android.widget.LinearLayout.LayoutParams.WRAP_CONTENT)
-                text = "${x[0]}"
+                text = "${rankingLine[0]}"
                 setTextColor(Color.parseColor("#FFFFFF"))
                 textSize = 18f
             }
@@ -90,7 +106,7 @@ class RankingFragment : Fragment() {
 
             val score = TextView(requireContext()).apply{
                 layoutParams = LinearLayout.LayoutParams((100f).dpToPixels().roundToInt(),android.widget.LinearLayout.LayoutParams.WRAP_CONTENT)
-                text = "${x[1]}"
+                text = "${rankingLine[1]}"
                 setTextColor(Color.parseColor("#FFFFFF"))
                 textSize = 18f
             }

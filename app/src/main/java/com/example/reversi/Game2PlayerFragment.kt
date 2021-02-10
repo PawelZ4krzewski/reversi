@@ -160,12 +160,18 @@ class Game2PlayerFragment : Fragment() {
         Log.d("gameFragment","${winnerText}")
             when {
                 game.playerA.amountOfPawns > game.playerB.amountOfPawns -> {
+                    saveRanking(2,game.playerA.getName())
+                    saveRanking(-1,game.playerB.getName())
                     winnerText.text = "${game.playerA.getName()} \n WINS!"
                 }
                 game.playerA.amountOfPawns < game.playerB.amountOfPawns -> {
+                    saveRanking(2,game.playerB.getName())
+                    saveRanking(-1,game.playerA.getName())
                     winnerText.text = "${game.playerB.getName()} \n WINS!"
                 }
                 else -> {
+                    saveRanking(1,game.playerA.getName())
+                    saveRanking(1,game.playerB.getName())
                     winnerText.text = "REMIS"
                 }
             }
@@ -181,6 +187,62 @@ class Game2PlayerFragment : Fragment() {
         builder.setView(v)
         dialog = builder.create()
         dialog.show()
+    }
+
+    private fun saveRanking(score: Int, name: String)
+    {
+        val myFile = File(requireContext().filesDir,"ranking.txt")
+        val isFile = myFile.createNewFile()
+        if(isFile)
+        {
+            Log.d("SettingsFragment", "Utworzono nowy plik")
+        }
+        else
+        {
+            Log.d("SettingsFragment", "Plik juz istnieje")
+        }
+
+        Log.d("zapisRankingu", "CHce dac graczowi ${name} punktow ${score}")
+        val tekst = myFile.bufferedReader().readLines()
+        var i = 0
+        var isPlayer = true
+        for(x in tekst)
+        {
+            val settingLine = x.split(";")
+            Log.d("zapisRankingu", "odczytuje ${settingLine[0]} z ${settingLine[1]}")
+            if(settingLine[0] == name){
+                isPlayer = false
+                if (i == 0) {
+                    Log.d("zapisRankingu", "Tworze na poczatku ${name} z ${settingLine[1].toInt()+score}")
+                    myFile.writeText("${settingLine[0]};${settingLine[1].toInt()+score}\n")
+                }
+                else
+                {
+                    Log.d("zapisRankingu", "dodaje ${name} z ${settingLine[1].toInt()+score}")
+                    myFile.appendText("${settingLine[0]};${settingLine[1].toInt()+score}\n")
+                }
+            }
+            else
+            {
+                if (i == 0) {
+                    Log.d("zapisRankingu", "Przepisuje na poczatek ${name} z ${settingLine[1].toInt()}")
+                    myFile.writeText("${settingLine[0]};${settingLine[1].toInt()}\n")
+                }
+                else
+                {
+                    Log.d("zapisRankingu", "Przepisuje ${name} z ${settingLine[1].toInt()}")
+                    myFile.appendText("${settingLine[0]};${settingLine[1].toInt()}\n")
+                }
+            }
+            i++
+        }
+
+        if(isPlayer)
+        {
+            Log.d("zapisRankingu", "Dodaje nowego gracza o nazwie ${name}")
+            myFile.appendText("$name;${score}\n")
+        }
+
     }
 
     private fun askAboutPlayer(view: View, game: GameTwoPlayers){

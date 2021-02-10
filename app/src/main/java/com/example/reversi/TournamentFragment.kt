@@ -63,6 +63,7 @@ class TournamentFragment : Fragment() {
                         )
                         id = View.generateViewId()
                         textSize = 20f
+                        setTextColor(Color.parseColor("#FFFFFF"))
                     }
                    textView.setText(namePlayerEditText.text.trim())
 
@@ -116,7 +117,8 @@ class TournamentFragment : Fragment() {
             else
             {
                 Log.d("TournamentFragment", "Taki turniej juz istnieje, podaj inną nazwe")
-                viewError.text = "Turniej o nazwie $fileName już istnieje. Podaj inną nazwę."
+                viewError.text = "$fileName already exist. Give other name."
+                viewError.setBackgroundColor(Color.parseColor("#000000"))
             }
         }
 
@@ -136,8 +138,9 @@ class TournamentFragment : Fragment() {
             }
             else
             {
-                Log.d("TournamentFragment", "Nie ma turnieju o nazwie $fileName.txt. Podaj inną nazwe")
-                viewError.text = "Nie ma turnieju o nazwie $fileName. Podaj inną nazwę."
+                Log.d("TournamentFragment", "$fileName deosn't exist. Give other name")
+                viewError.text = "$fileName deosn't exist. Give other name"
+                viewError.setBackgroundColor(Color.parseColor("#000000"))
             }
         }
 

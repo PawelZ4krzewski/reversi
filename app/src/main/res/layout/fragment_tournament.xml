@@ -11,7 +11,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/TOURNAMENT"
+        android:textColorHint="@color/darkWhite"
+        android:textColor="@color/white"
         android:textSize="36sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
@@ -29,7 +32,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextTournament"
-        app:layout_constraintVertical_bias="0.13999999">
+        app:layout_constraintVertical_bias="0.13999999"
+        android:background="@color/black"
+        android:padding="20dp"
+        android:alpha="0.7">
 
         <ScrollView
             android:layout_width="match_parent"
@@ -46,7 +52,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="TextView"
-                    android:textSize="15dp" />
+                    android:textSize="15dp"
+                    android:textColor="@color/white"/>
             </LinearLayout>
         </ScrollView>
 
@@ -58,6 +65,8 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="Name"
+        android:textColorHint="@color/darkWhite"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
@@ -67,7 +76,7 @@
 
     <Button
         android:id="@+id/buttonAddPlayerToTournament"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:text="Add Player"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -78,7 +87,7 @@
 
     <Button
         android:id="@+id/buttonStartTournament"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:text="Start"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -89,7 +98,7 @@
 
     <Button
         android:id="@+id/buttonLoadTournament"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:text="Load Tournament"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -100,7 +109,7 @@
 
     <Button
         android:id="@+id/buttonExitToMenu"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:text="Back To menu"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -111,12 +120,14 @@
     <TextView
         android:id="@+id/textViewErrorTournament"
         android:layout_width="wrap_content"
-        android:maxWidth="300dp"
-        android:layout_height="wrap_content"
+        android:layout_height="30dp"
         android:gravity="center"
+        android:maxWidth="300dp"
         android:shadowColor="#FFFFFF"
         android:text=""
         android:textColor="#EC0101"
+        android:alpha="0.7"
+        android:padding="5dp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayoutPlayersInTournamentMain"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

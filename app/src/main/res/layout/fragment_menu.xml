@@ -6,44 +6,56 @@
     android:layout_height="match_parent"
     tools:context=".Menu">
 
+    <TextView
+        android:id="@+id/textViewReversiMenu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="REVERSI"
+        android:textSize="60dp"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.120000005" />
+
     <Button
         android:id="@+id/start1PlayerGameButton"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:text="@string/start_1_player"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.518"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.341" />
+        app:layout_constraintVertical_bias="0.32" />
 
     <Button
         android:id="@+id/start2PlayerGameButton"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:text="@string/start_2_player"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.437" />
+        app:layout_constraintVertical_bias="0.43" />
 
     <Button
         android:id="@+id/settingsButton"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:text="@string/ustawienia"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.682" />
+        app:layout_constraintVertical_bias="0.72" />
 
     <Button
         android:id="@+id/exitButton"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:text="@string/WYJŚCIE"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -51,22 +63,24 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/start2PlayerGameButton"
-        app:layout_constraintVertical_bias="0.508" />
+        app:layout_constraintVertical_bias="0.65" />
 
     <Button
         android:id="@+id/buttonTournament"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="Tournament"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.506"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/start2PlayerGameButton" />
+        app:layout_constraintTop_toBottomOf="@+id/start2PlayerGameButton"
+        app:layout_constraintVertical_bias="0.04000002" />
 
     <Button
         android:id="@+id/buttonRanking"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:text="Ranking"
         app:layout_constraintBottom_toTopOf="@+id/settingsButton"

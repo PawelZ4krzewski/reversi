@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.graphics.Color
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
@@ -16,14 +17,16 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import java.io.File
+import kotlin.concurrent.thread
 import kotlin.math.log
 import kotlin.math.roundToInt
 
 
 class Game1PlayerFragment : Fragment() {
 
+    private var timerHandler: Handler? = null
     private val itemViewModel: ItemViewModel by activityViewModels()
-
+    private var timePassed = 1
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -94,6 +97,7 @@ class Game1PlayerFragment : Fragment() {
     }
 
     private fun createBoard(view: View, game: GameOnePlayer) {
+        clock(view)
 
         val myLayout = view.findViewById<LinearLayout>(R.id.LinearLayoutBot)
         updateScore(view,game)
@@ -166,6 +170,9 @@ class Game1PlayerFragment : Fragment() {
     @SuppressLint("SetTextI18n")
     private fun openGameOverDialog(view: View, game: GameOnePlayer) {
 
+        timerHandler?.removeCallbacksAndMessages(null)
+        timerHandler = null
+
         var dialog: AlertDialog? = null
         val builder = AlertDialog.Builder(requireContext())
         val v = layoutInflater.inflate(R.layout.game_over, null)
@@ -202,51 +209,41 @@ class Game1PlayerFragment : Fragment() {
 
     private fun saveRanking(score: Int, name: String)
     {
-        val myFile = File(requireContext().filesDir,"ranking.txt")
-        val isFile = myFile.createNewFile()
-        if(isFile)
-        {
-            Log.d("SettingsFragment", "Utworzono nowy plik")
-        }
-        else
-        {
-            Log.d("SettingsFragment", "Plik juz istnieje")
-        }
-
-        val tekst = myFile.bufferedReader().readLines()
-        var i = 0
-        var flag = true
-        for(x in tekst)
-        {
-            val settingLine = x.split(";")
-            if(settingLine[0] == name){
-                flag = false
-                if (i == 0) {
-                    myFile.writeText("${settingLine[0]};${settingLine[1].toInt()+score}\n")
-                }
-                else
-                {
-                    myFile.appendText("${settingLine[0]};${settingLine[1].toInt()+score}\n")
-                }
+        thread{
+            val myFile = File(requireContext().filesDir, "ranking.txt")
+            val isFile = myFile.createNewFile()
+            if (isFile) {
+                Log.d("SettingsFragment", "Utworzono nowy plik")
+            } else {
+                Log.d("SettingsFragment", "Plik juz istnieje")
             }
-            else
-            {
-                if (i == 0) {
-                    myFile.writeText("${settingLine[0]};${settingLine[1].toInt()}\n")
-                }
-                else
-                {
-                    myFile.appendText("${settingLine[0]};${settingLine[1].toInt()}\n")
-                }
-            }
-            i++
-        }
 
-        if(flag)
-        {
-            myFile.appendText("$name;${score}\n")
+            val tekst = myFile.bufferedReader().readLines()
+            var i = 0
+            var flag = true
+            for (x in tekst) {
+                val settingLine = x.split(";")
+                if (settingLine[0] == name) {
+                    flag = false
+                    if (i == 0) {
+                        myFile.writeText("${settingLine[0]};${settingLine[1].toInt() + score}\n")
+                    } else {
+                        myFile.appendText("${settingLine[0]};${settingLine[1].toInt() + score}\n")
+                    }
+                } else {
+                    if (i == 0) {
+                        myFile.writeText("${settingLine[0]};${settingLine[1].toInt()}\n")
+                    } else {
+                        myFile.appendText("${settingLine[0]};${settingLine[1].toInt()}\n")
+                    }
+                }
+                i++
+            }
+
+            if (flag) {
+                myFile.appendText("$name;${score}\n")
+            }
         }
-        
     }
 
 
@@ -258,12 +255,20 @@ class Game1PlayerFragment : Fragment() {
             id = View.generateViewId()
         }
     }
-    private fun clock()
+    private fun clock(view: View)
     {
-
+        timerHandler = Handler()
+        timerHandler?.postDelayed(object : Runnable {
+            override fun run() {
+                val minutes = (timePassed / 60).toString().padStart(2, '0')
+                val seconds = (timePassed % 60).toString().padStart(2, '0')
+                view.findViewById<TextView>(R.id.time).text = "$minutes:$seconds"
+                    timerHandler?.postDelayed(this, 1000)
+                    timePassed++
+            }
+        }, 1000)
     }
 
-    @SuppressLint("SetTextI18n")
     private fun updateScore(view: View, game: GameOnePlayer) {
         view.findViewById<TextView>(R.id.textViewPlayerA).text =
             "${game.playerA.getName()}\n${game.playerA.amountOfPawns}"

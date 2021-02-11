@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.graphics.Color
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.util.TypedValue
 import androidx.fragment.app.Fragment
@@ -19,13 +20,15 @@ import kotlin.math.roundToInt
 
 class TournamentGame : Fragment() {
 
+    private var timerHandler: Handler? = null
+    private var timePassed = 1
     val args: TournamentGameArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_game2_player, container, false)
+        val view = inflater.inflate(R.layout.fragment_tournament_game, container, false)
         return view
     }
 
@@ -69,13 +72,6 @@ class TournamentGame : Fragment() {
         val linesTournament = readTournamentInformation()
 
 
-//        val playersName = linesTournament[2+linesTournament[2].toInt()].split(" vs ")
-
-//        for(x  in linesTournament)
-//        {
-//            Log.d("TournamentFragment", "DANE Z PLIKU: $x")
-//        }
-
         val playerAName  = linesTournament[2+linesTournament[1].toInt()+linesTournament[0].toInt()].split(" vs ")[0]
         val playerBName  = linesTournament[2+linesTournament[1].toInt()+linesTournament[0].toInt()].split(" vs ")[1]
 //        val playerAName  = "PlayerA"
@@ -104,8 +100,9 @@ class TournamentGame : Fragment() {
 
     private fun createBoard(view: View, game: GameTwoPlayers) {
 
-        val myLayout = view.findViewById<LinearLayout>(R.id.LinearLayout)
+        clock(view)
 
+        val myLayout = view.findViewById<LinearLayout>(R.id.LinearLayout)
 
         for (i in 0 until game.board.boardSize) {
 
@@ -212,13 +209,31 @@ class TournamentGame : Fragment() {
         }
     }
 
-    @SuppressLint("SetTextI18n")
+    private fun clock(view: View)
+    {
+        timerHandler = Handler()
+        timerHandler?.postDelayed(object : Runnable {
+            override fun run() {
+                val minutes = (timePassed / 60).toString().padStart(2, '0')
+                val seconds = (timePassed % 60).toString().padStart(2, '0')
+                view.findViewById<TextView>(R.id.timeTournament).text = "$minutes:$seconds"
+                timerHandler?.postDelayed(this, 1000)
+                timePassed++
+            }
+        }, 1000)
+    }
+
     private fun updateScore(view: View, game: GameTwoPlayers) {
-        view.findViewById<TextView>(R.id.textViewA).text =
-            "${game.playerA.getName()}  \n ${game.playerA.amountOfPawns}"
-        view.findViewById<TextView>(R.id.textViewB).text =
-            "${game.playerB.getName()}  \n ${game.playerB.amountOfPawns}"
-        view.findViewById<TextView>(R.id.currentPlayer).text = game.currentPlayer
+
+        view.findViewById<TextView>(R.id.textViewPlayerATournament).text =
+            "${game.playerA.getName()}\n${game.playerA.amountOfPawns}"
+        view.findViewById<TextView>(R.id.textViewPlayerBTournament).text =
+            "${game.playerB.getName()}\n${game.playerB.amountOfPawns}"
+
+        val pomButton = view.findViewById<ImageButton>(R.id.buttonCurrentPlayerTournament)
+        val currentPlayerColor = if (game.currentPlayer == game.playerA.color) game.playerA.color else game.playerB.color
+        val currentPlayerPawnButton = PawnButton(pomButton, currentPlayerColor,-1,-1 )
+        pomButton.setImageResource(currentPlayerPawnButton.setColor(currentPlayerColor))
     }
 
     private fun readTournamentInformation() : List<String>

@@ -90,7 +90,6 @@ class TournamentFragment : Fragment() {
             val myFile = File(requireContext().filesDir,"$fileName.txt")
             val isFile = myFile.createNewFile()
             if(isFile) {
-                Log.d("TournamentFragment","XDDDDDDDDDDDDDDDDDD")
                 Log.d("TournamentFragment", "Utworzono nowy plik o nazwie $fileName.txt")
 
                 myFile.writeText("${everyPlayer.size}\n") //amount of Players

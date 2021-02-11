@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import kotlinx.android.synthetic.main.fragment_settings.*
 import java.io.File
+import kotlin.concurrent.thread
 
 
 class SettingsFragment : Fragment() {
@@ -97,22 +98,20 @@ class SettingsFragment : Fragment() {
 
     private fun saveOption(boardSize: Int, playerAColor: String, playerBColor: String)
     {
+        thread{
+            val myFile = File(requireContext().filesDir, "gameSettings.txt")
+            val isFile = myFile.createNewFile()
+            if (isFile) {
+                Log.d("SettingsFragment", "Utworzono nowy plik")
+            } else {
+                Log.d("SettingsFragment", "Plik juz istnieje")
+            }
 
-        val myFile = File(requireContext().filesDir,"gameSettings.txt")
-        val isFile = myFile.createNewFile()
-        if(isFile)
-        {
-            Log.d("SettingsFragment", "Utworzono nowy plik")
+            myFile.writeText("boardSize ")
+            myFile.appendText("$boardSize\n")
+            myFile.appendText("playerAColor $playerAColor\n")
+            myFile.appendText("playerBColor $playerBColor\n")
         }
-        else
-        {
-            Log.d("SettingsFragment", "Plik juz istnieje")
-        }
-
-        myFile.writeText("boardSize ")
-        myFile.appendText("$boardSize\n")
-        myFile.appendText("playerAColor $playerAColor\n")
-        myFile.appendText("playerBColor $playerBColor\n")
     }
 
     private fun readOption(v: View)

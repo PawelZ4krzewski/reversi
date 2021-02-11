@@ -76,8 +76,8 @@ class Game1PlayerFragment : Fragment() {
         val playerB = Bot(playerBColor, "PlayerB")
         val game = GameOnePlayer(playerA, playerB, board, buttonSize)
         game.currentPlayer = playerAColor
-        createBoard(view, game)
 
+        createBoard(view, game)
         val resetButton = view.findViewById<Button>(R.id.resetButtonBot)
         resetButton.setOnClickListener()
         {
@@ -96,8 +96,7 @@ class Game1PlayerFragment : Fragment() {
     private fun createBoard(view: View, game: GameOnePlayer) {
 
         val myLayout = view.findViewById<LinearLayout>(R.id.LinearLayoutBot)
-
-
+        updateScore(view,game)
 
         for (i in 0 until game.board.boardSize) {
 
@@ -176,10 +175,10 @@ class Game1PlayerFragment : Fragment() {
         when {
             game.playerA.amountOfPawns > game.bot.amountOfPawns -> {
                 saveRanking(2, game.playerA.getName())
-                winnerText.text = "${game.playerA.getName()} \n WINS!"
+                winnerText.text = "${game.playerA.getName()}\nWINS!"
             }
             game.playerA.amountOfPawns < game.bot.amountOfPawns -> {
-                winnerText.text = "${game.bot.getName()} \n WINS!"
+                winnerText.text = "${game.bot.getName()}\nWINS!"
                 saveRanking(-1, game.playerA.getName())
             }
             else -> {
@@ -223,21 +222,21 @@ class Game1PlayerFragment : Fragment() {
             if(settingLine[0] == name){
                 flag = false
                 if (i == 0) {
-                    myFile.writeText("$name;${settingLine[1].toInt()+score}\n")
+                    myFile.writeText("${settingLine[0]};${settingLine[1].toInt()+score}\n")
                 }
                 else
                 {
-                    myFile.appendText("$name;${settingLine[1].toInt()+score}\n")
+                    myFile.appendText("${settingLine[0]};${settingLine[1].toInt()+score}\n")
                 }
             }
             else
             {
                 if (i == 0) {
-                    myFile.writeText("$name;${settingLine[1].toInt()}\n")
+                    myFile.writeText("${settingLine[0]};${settingLine[1].toInt()}\n")
                 }
                 else
                 {
-                    myFile.appendText("$name;${settingLine[1].toInt()}\n")
+                    myFile.appendText("${settingLine[0]};${settingLine[1].toInt()}\n")
                 }
             }
             i++
@@ -259,13 +258,21 @@ class Game1PlayerFragment : Fragment() {
             id = View.generateViewId()
         }
     }
+    private fun clock()
+    {
+
+    }
 
     @SuppressLint("SetTextI18n")
     private fun updateScore(view: View, game: GameOnePlayer) {
         view.findViewById<TextView>(R.id.textViewPlayerA).text =
-            "${game.playerA.getName()}  \n ${game.playerA.amountOfPawns}"
+            "${game.playerA.getName()}\n${game.playerA.amountOfPawns}"
         view.findViewById<TextView>(R.id.textViewBot).text =
-            "${game.bot.getName()}  \n ${game.bot.amountOfPawns}"
-        view.findViewById<TextView>(R.id.currentPlayerBot).text = "${game.currentPlayer}"
+            "${game.bot.getName()}\n${game.bot.amountOfPawns}"
+
+        val pomButton = view.findViewById<ImageButton>(R.id.buttonCurrentPlayer)
+        val currentPlayerColor = if (game.currentPlayer == game.playerA.color) game.playerA.color else game.bot.color
+        val currentPlayerPawnButton = PawnButton(pomButton, currentPlayerColor,-1,-1 )
+        pomButton.setImageResource(currentPlayerPawnButton.setColor(currentPlayerColor))
     }
 }

@@ -90,7 +90,7 @@ class Game2PlayerFragment : Fragment() {
     private fun createBoard(view: View, game: GameTwoPlayers) {
 
         val myLayout = view.findViewById<LinearLayout>(R.id.LinearLayout)
-
+        updateScore(view,game)
 
         for (i in 0 until game.board.boardSize) {
 
@@ -162,12 +162,12 @@ class Game2PlayerFragment : Fragment() {
                 game.playerA.amountOfPawns > game.playerB.amountOfPawns -> {
                     saveRanking(2,game.playerA.getName())
                     saveRanking(-1,game.playerB.getName())
-                    winnerText.text = "${game.playerA.getName()} \n WINS!"
+                    winnerText.text = "${game.playerA.getName()}\nWINS!"
                 }
                 game.playerA.amountOfPawns < game.playerB.amountOfPawns -> {
                     saveRanking(2,game.playerB.getName())
                     saveRanking(-1,game.playerA.getName())
-                    winnerText.text = "${game.playerB.getName()} \n WINS!"
+                    winnerText.text = "${game.playerB.getName()}\nWINS!"
                 }
                 else -> {
                     saveRanking(1,game.playerA.getName())
@@ -273,9 +273,13 @@ class Game2PlayerFragment : Fragment() {
     @SuppressLint("SetTextI18n")
     private fun updateScore(view: View, game: GameTwoPlayers) {
         view.findViewById<TextView>(R.id.textViewA).text =
-            "${game.playerA.getName()}  \n ${game.playerA.amountOfPawns}"
+            "${game.playerA.getName()}\n${game.playerA.amountOfPawns}"
         view.findViewById<TextView>(R.id.textViewB).text =
-            "${game.playerB.getName()}  \n ${game.playerB.amountOfPawns}"
-        view.findViewById<TextView>(R.id.currentPlayer).text = "${game.currentPlayer}"
+            "${game.playerB.getName()}\n${game.playerB.amountOfPawns}"
+
+        val pomButton = view.findViewById<ImageButton>(R.id.buttonCurrentPlayer2Players)
+        val currentPlayerColor = if (game.currentPlayer == game.playerA.color) game.playerA.color else game.playerB.color
+        val currentPlayerPawnButton = PawnButton(pomButton, currentPlayerColor,-1,-1 )
+        pomButton.setImageResource(currentPlayerPawnButton.setColor(currentPlayerColor))
     }
 }

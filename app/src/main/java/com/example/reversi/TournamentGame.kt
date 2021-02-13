@@ -83,11 +83,6 @@ class TournamentGame : Fragment() {
         val game = GameTwoPlayers(playerA, playerB, board, buttonSize)
         createBoard(view, game)
 
-        val resetButton = view.findViewById<Button>(R.id.resetButton)
-        resetButton.setOnClickListener()
-        {
-            view.findNavController().navigate(R.id.action_gameFragment_to_menu)
-        }
     }
 
     private fun Float.dpToPixels(): Float {

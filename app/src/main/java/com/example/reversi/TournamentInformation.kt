@@ -66,6 +66,10 @@ class TournamentInformation : Fragment() {
         {
             openLastGamesDialog(view, tournamentName)
         }
+        openRankingTournament.setOnClickListener()
+        {
+            openRankingDialog(view, tournamentName)
+        }
 
 
         exitToMenuButton.setOnClickListener()
@@ -230,6 +234,113 @@ class TournamentInformation : Fragment() {
         dialog.show()
     }
 
+    private fun openRankingDialog(view: View, fileName: String) {
+
+        var dialog: AlertDialog? = null
+        val builder = AlertDialog.Builder(requireContext())
+        val v = layoutInflater.inflate(R.layout.ranking_tournament, null)
+        val linearLayoutRanking = v.findViewById<LinearLayout>(R.id.linearLayoutRankingTournament)
+        val myFile = File(requireContext().filesDir,"$fileName.txt")
+        val isFile = myFile.createNewFile()
+        if(isFile)
+        {
+            Log.d("RankingFragment", "Utworzono nowy plik")
+        }
+        else
+        {
+            Log.d("RankingFragment", "Plik juz istnieje")
+        }
+
+        val tekst = myFile.bufferedReader().readLines().toMutableList()
+
+        for(i in 2..tekst[0].toInt()+1)
+        {
+            for(j in i..tekst[0].toInt())
+            {
+                val a = tekst[i].split(":")
+                val b = tekst[j].split(":")
+                if(a[1].toInt()<b[1].toInt())
+                {
+                    val temp = tekst[i]
+                    tekst[i]=tekst[j]
+                    tekst[j]=temp
+                }
+            }
+        }
+
+        var i = 1;
+        var j = 1;
+        for (x in tekst) {
+
+            if(i <= 2)
+            {
+                i++
+                continue
+            }
+
+            if(i>tekst[0].toInt()+2)
+            {
+                break
+            }
+
+            val row = LinearLayout(requireContext()).apply {
+                layoutParams = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.MATCH_PARENT
+                )
+                orientation = LinearLayout.HORIZONTAL
+            }
+
+            val rankingLine = x.split(":")
+
+            val number = TextView(requireContext()).apply{
+                layoutParams = LinearLayout.LayoutParams((45f).dpToPixels().roundToInt(),android.widget.LinearLayout.LayoutParams.WRAP_CONTENT)
+                text = "$j."
+                gravity =  Gravity.CENTER_HORIZONTAL
+                textSize = 18f
+            }
+
+            val playerName = TextView(requireContext()).apply{
+                layoutParams = LinearLayout.LayoutParams((175f).dpToPixels().roundToInt(),android.widget.LinearLayout.LayoutParams.WRAP_CONTENT)
+                text = "${rankingLine[0]}"
+                textSize = 18f
+            }
+
+            playerName.setGravity(Gravity.CENTER)
+
+            val score = TextView(requireContext()).apply{
+                layoutParams = LinearLayout.LayoutParams((100f).dpToPixels().roundToInt(),android.widget.LinearLayout.LayoutParams.WRAP_CONTENT)
+                text = "${rankingLine[1]}"
+                textSize = 18f
+            }
+            score.gravity = Gravity.CENTER_HORIZONTAL
+
+            if(i<=3){
+                number.setTypeface(null, Typeface.BOLD);
+                playerName.setTypeface(null, Typeface.BOLD);
+                score.setTypeface(null, Typeface.BOLD);
+            }
+            row.addView(number)
+            row.addView(playerName)
+            row.addView(score)
+            linearLayoutRanking.addView(row)
+            i++
+            j++
+        }
+
+
+        val buttonExit = v.findViewById<ImageButton>(R.id.imageButtonCloseRankingTournament)
+        buttonExit.setOnClickListener()
+        {
+            Log.d("TournamentInformation", "EXIT LAST GAMES")
+            dialog?.dismiss()
+        }
+
+        builder.setView(v)
+        dialog = builder.create()
+        dialog.show()
+    }
+    
     private fun Float.dpToPixels(): Float {
         return TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_DIP,

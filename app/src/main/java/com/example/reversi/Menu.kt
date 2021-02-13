@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.navigation.findNavController
+import kotlin.system.exitProcess
 
 class Menu : Fragment() {
 
@@ -36,6 +37,10 @@ class Menu : Fragment() {
             view.findNavController().navigate(R.id.action_menu_to_rankingFragment)
         }
 
+        view.findViewById<Button>(R.id.exitButton).setOnClickListener()
+        {
+            exitProcess(-1)
+        }
         return view
     }
 

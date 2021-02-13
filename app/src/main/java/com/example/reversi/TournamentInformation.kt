@@ -1,18 +1,25 @@
 package com.example.reversi
 
+import android.app.AlertDialog
 import android.graphics.Color
+import android.graphics.Typeface
 import android.os.Bundle
 import android.util.Log
+import android.util.TypedValue
+import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageButton
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import java.io.File
+import kotlin.math.roundToInt
 
 
 class TournamentInformation : Fragment() {
@@ -29,6 +36,8 @@ class TournamentInformation : Fragment() {
         val bestPlayerName = view.findViewById<TextView>(R.id.textViewBestPlayerName)
         val currentGame = view.findViewById<TextView>(R.id.textViewCurrentGameName)
         val startTournamentGame = view.findViewById<Button>(R.id.buttonStartTournamentGame)
+        val openRankingTournament = view.findViewById<Button>(R.id.buttonRanking)
+        val openLastGames = view.findViewById<Button>(R.id.buttonLastGames)
         val exitToMenuButton = view.findViewById<Button>(R.id.buttonBackToMenuTI)
 
 
@@ -52,6 +61,11 @@ class TournamentInformation : Fragment() {
             startTournamentGame.setBackgroundColor(Color.parseColor("#C0C0C0"))
         }
 
+
+        openLastGames.setOnClickListener()
+        {
+            openLastGamesDialog(view, tournamentName)
+        }
 
 
         exitToMenuButton.setOnClickListener()
@@ -109,5 +123,118 @@ class TournamentInformation : Fragment() {
         return myFile.bufferedReader().readLines()
     }
 
+    private fun openLastGamesDialog(view: View, fileName: String) {
 
+        var dialog: AlertDialog? = null
+        val builder = AlertDialog.Builder(requireContext())
+        val v = layoutInflater.inflate(R.layout.last_games_tournament, null)
+        val linearLayoutLastGames = v.findViewById<LinearLayout>(R.id.linearLayoutLastGames)
+        val myFile = File(requireContext().filesDir,"$fileName.txt")
+        val isFile = myFile.createNewFile()
+        if(isFile)
+        {
+            Log.d("RankingFragment", "Utworzono nowy plik")
+        }
+        else
+        {
+            Log.d("RankingFragment", "Plik juz istnieje")
+        }
+
+        val tekst = myFile.bufferedReader().readLines().toMutableList()
+        val startRead = tekst[0].toInt()+2
+        var i = 0;
+
+        for (x in tekst) {
+            Log.d("TourInformation", "Wchodze do petli tekst")
+
+            val row = LinearLayout(requireContext()).apply {
+                layoutParams = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.MATCH_PARENT
+                )
+                orientation = LinearLayout.HORIZONTAL
+            }
+            Log.d("TourInformation", "Utworzylem row")
+            if(i<startRead)
+            {
+                Log.d("TourInformation", "Za mala Linia $i")
+                i++
+                continue
+
+            }
+            val lastGamesLine = x.split(":")
+
+            Log.d("TourInformation", "podzielilem ${lastGamesLine[0]}")
+
+            if(lastGamesLine.size<2)
+            {
+                Log.d("TourInformation", "Nie odbyl sie $lastGamesLine")
+                continue
+            }
+
+            val players = lastGamesLine[0].split(" vs ")
+            val score = lastGamesLine[1].split(";")
+            Log.d("TourInformation", "playerA ${players[0]} ")
+            Log.d("TourInformation", "playerB ${players[1]} ")
+            Log.d("TourInformation", "scoreA ${score[0]}")
+            Log.d("TourInformation", "scoreB ${players[0]}")
+            val playerA = TextView(requireContext()).apply{
+                layoutParams = LinearLayout.LayoutParams((80f).dpToPixels().roundToInt(),android.widget.LinearLayout.LayoutParams.WRAP_CONTENT)
+                text = "${players[0]}"
+                gravity =  Gravity.CENTER_HORIZONTAL
+                textSize = 18f
+            }
+            Log.d("TourInformation", "Tworze PlayerA")
+
+            val scoreA = TextView(requireContext()).apply{
+                layoutParams = LinearLayout.LayoutParams((80f).dpToPixels().roundToInt(),android.widget.LinearLayout.LayoutParams.WRAP_CONTENT)
+                text = "${score[0]}"
+                textSize = 18f
+            }
+
+            scoreA.setGravity(Gravity.CENTER)
+//            scoreA.setBackgroundColor(Color.parseColor("#443512"))
+
+            val scoreB = TextView(requireContext()).apply{
+                layoutParams = LinearLayout.LayoutParams((80f).dpToPixels().roundToInt(),android.widget.LinearLayout.LayoutParams.WRAP_CONTENT)
+                text = "${score[1]}"
+                textSize = 18f
+            }
+            scoreB.gravity = Gravity.CENTER_HORIZONTAL
+
+            val playerB = TextView(requireContext()).apply{
+                layoutParams = LinearLayout.LayoutParams((80f).dpToPixels().roundToInt(),android.widget.LinearLayout.LayoutParams.WRAP_CONTENT)
+                text = "${players[1]}"
+                textSize = 18f
+            }
+            playerB.gravity = Gravity.CENTER_HORIZONTAL
+
+            row.addView(playerA)
+            row.addView(scoreA)
+            row.addView(scoreB)
+            row.addView(playerB)
+            linearLayoutLastGames.addView(row)
+            i++
+        }
+
+
+        val buttonExit = v.findViewById<ImageButton>(R.id.imageButtonCloseLastGames)
+        buttonExit.setOnClickListener()
+        {
+            Log.d("TournamentInformation", "EXIT LAST GAMES")
+            dialog?.dismiss()
+        }
+
+        builder.setView(v)
+        dialog = builder.create()
+        dialog.show()
+    }
+
+    private fun Float.dpToPixels(): Float {
+        return TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP,
+            this,
+            resources.displayMetrics
+        )
+    }
 }

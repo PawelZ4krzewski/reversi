@@ -86,24 +86,49 @@
 
     <Button
         android:id="@+id/buttonStartTournamentGame"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:text="Start Game"
+        android:text="START GAME"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewCurrentGameName"
+        app:layout_constraintVertical_bias="0.24000001" />
+
+
+    <Button
+        android:id="@+id/buttonRanking"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="RANKING"
+        app:layout_constraintBottom_toTopOf="@+id/buttonLastGames"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonStartTournamentGame"
         app:layout_constraintVertical_bias="0.29000002" />
 
     <Button
+        android:id="@+id/buttonLastGames"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="LAST GAMES"
+        app:layout_constraintBottom_toTopOf="@+id/buttonBackToMenuTI"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonStartTournamentGame"
+        app:layout_constraintVertical_bias="0.88" />
+
+    <Button
         android:id="@+id/buttonBackToMenuTI"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:text="MENU"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonStartTournamentGame" />
-
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.95" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

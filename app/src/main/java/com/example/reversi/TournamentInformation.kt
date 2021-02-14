@@ -253,9 +253,9 @@ class TournamentInformation : Fragment() {
 
         val tekst = myFile.bufferedReader().readLines().toMutableList()
 
-        for(i in 2..tekst[0].toInt()+1)
+        for(i in 2..tekst[0].toInt()+2)
         {
-            for(j in i..tekst[0].toInt())
+            for(j in i..tekst[0].toInt()+1)
             {
                 val a = tekst[i].split(":")
                 val b = tekst[j].split(":")
